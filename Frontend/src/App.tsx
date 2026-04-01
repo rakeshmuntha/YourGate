@@ -41,108 +41,108 @@ import UnauthorizedPage from './pages/UnauthorizedPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 const App = () => {
-  const dispatch = useAppDispatch();
-  const { isLoading, isAuthenticated, user } = useAppSelector((s) => s.auth);
-  const { theme } = useAppSelector((s) => s.theme);
+    const dispatch = useAppDispatch();
+    const { isLoading, isAuthenticated, user } = useAppSelector((s) => s.auth);
+    const { theme } = useAppSelector((s) => s.theme);
 
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-    dispatch(setTheme(theme));
-  }, [theme, dispatch]);
+    useEffect(() => {
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+        dispatch(setTheme(theme));
+    }, [theme, dispatch]);
 
-  useEffect(() => {
-    dispatch(fetchCurrentUser());
-  }, [dispatch]);
+    useEffect(() => {
+        dispatch(fetchCurrentUser());
+    }, [dispatch]);
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
-        <div className="text-center">
-          <LoadingSpinner size="lg" />
-          <p className="mt-4 text-gray-500 font-medium">Loading YourGate...</p>
-        </div>
-      </div>
-    );
-  }
+    if (isLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+                <div className="text-center">
+                    <LoadingSpinner size="lg" />
+                    <p className="mt-4 text-gray-500 font-medium">Loading YourGate...</p>
+                </div>
+            </div>
+        );
+    }
 
-  const getDefaultRoute = () => {
-    if (!isAuthenticated || !user) return '/login';
-    const map: Record<string, string> = {
-      [Role.SUPER_ADMIN]: '/super-admin',
-      [Role.ADMIN]: '/admin',
-      [Role.RESIDENT]: '/resident',
-      [Role.SECURITY]: '/security',
+    const getDefaultRoute = () => {
+        if (!isAuthenticated || !user) return '/login';
+        const map: Record<string, string> = {
+            [Role.SUPER_ADMIN]: '/super-admin',
+            [Role.ADMIN]: '/admin',
+            [Role.RESIDENT]: '/resident',
+            [Role.SECURITY]: '/security',
+        };
+        return map[user.role] || '/login';
     };
-    return map[user.role] || '/login';
-  };
 
-  return (
-    <Routes>
-      {/* Public routes */}
-      <Route path="/login" element={isAuthenticated ? <Navigate to={getDefaultRoute()} /> : <LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/register-community" element={<RegisterCommunityPage />} />
-      <Route path="/unauthorized" element={<UnauthorizedPage />} />
+    return (
+        <Routes>
+            {/* Public routes */}
+            <Route path="/login" element={isAuthenticated ? <Navigate to={getDefaultRoute()} /> : <LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/register-community" element={<RegisterCommunityPage />} />
+            <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
-      {/* Resident routes */}
-      <Route
-        element={
-          <ProtectedRoute allowedRoles={[Role.RESIDENT]}>
-            <DashboardLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route path="/resident" element={<ResidentDashboard />} />
-        <Route path="/resident/access-codes" element={<AccessCodesPage />} />
-        <Route path="/resident/amenities" element={<ResidentAmenitiesPage />} />
-        <Route path="/resident/bookings" element={<ResidentBookingsPage />} />
-      </Route>
+            {/* Resident routes */}
+            <Route
+                element={
+                    <ProtectedRoute allowedRoles={[Role.RESIDENT]}>
+                        <DashboardLayout />
+                    </ProtectedRoute>
+                }
+            >
+                <Route path="/resident" element={<ResidentDashboard />} />
+                <Route path="/resident/access-codes" element={<AccessCodesPage />} />
+                <Route path="/resident/amenities" element={<ResidentAmenitiesPage />} />
+                <Route path="/resident/bookings" element={<ResidentBookingsPage />} />
+            </Route>
 
-      {/* Security routes */}
-      <Route
-        element={
-          <ProtectedRoute allowedRoles={[Role.SECURITY]}>
-            <DashboardLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route path="/security" element={<SecurityDashboard />} />
-        <Route path="/security/verify" element={<VerifyCodePage />} />
-        <Route path="/security/visitors" element={<SecurityVisitorLogs />} />
-      </Route>
+            {/* Security routes */}
+            <Route
+                element={
+                    <ProtectedRoute allowedRoles={[Role.SECURITY]}>
+                        <DashboardLayout />
+                    </ProtectedRoute>
+                }
+            >
+                <Route path="/security" element={<SecurityDashboard />} />
+                <Route path="/security/verify" element={<VerifyCodePage />} />
+                <Route path="/security/visitors" element={<SecurityVisitorLogs />} />
+            </Route>
 
-      {/* Admin routes */}
-      <Route
-        element={
-          <ProtectedRoute allowedRoles={[Role.ADMIN]}>
-            <DashboardLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/admin/users" element={<ManageUsersPage />} />
-        <Route path="/admin/amenities" element={<ManageAmenitiesPage />} />
-        <Route path="/admin/bookings" element={<AdminBookingsPage />} />
-        <Route path="/admin/visitors" element={<AdminVisitorLogs />} />
-      </Route>
+            {/* Admin routes */}
+            <Route
+                element={
+                    <ProtectedRoute allowedRoles={[Role.ADMIN]}>
+                        <DashboardLayout />
+                    </ProtectedRoute>
+                }
+            >
+                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin/users" element={<ManageUsersPage />} />
+                <Route path="/admin/amenities" element={<ManageAmenitiesPage />} />
+                <Route path="/admin/bookings" element={<AdminBookingsPage />} />
+                <Route path="/admin/visitors" element={<AdminVisitorLogs />} />
+            </Route>
 
-      {/* Super Admin routes */}
-      <Route
-        element={
-          <ProtectedRoute allowedRoles={[Role.SUPER_ADMIN]}>
-            <DashboardLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route path="/super-admin" element={<SuperAdminDashboard />} />
-        <Route path="/super-admin/communities" element={<CommunitiesPage />} />
-      </Route>
+            {/* Super Admin routes */}
+            <Route
+                element={
+                    <ProtectedRoute allowedRoles={[Role.SUPER_ADMIN]}>
+                        <DashboardLayout />
+                    </ProtectedRoute>
+                }
+            >
+                <Route path="/super-admin" element={<SuperAdminDashboard />} />
+                <Route path="/super-admin/communities" element={<CommunitiesPage />} />
+            </Route>
 
-      {/* Redirects */}
-      <Route path="/" element={<Navigate to={getDefaultRoute()} />} />
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
-  );
+            {/* Redirects */}
+            <Route path="/" element={<Navigate to={getDefaultRoute()} />} />
+            <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+    );
 };
 
 export default App;

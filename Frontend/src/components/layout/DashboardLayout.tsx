@@ -84,6 +84,7 @@ const DashboardLayout = () => {
             {navItems.map((item) => (
               <NavLink
                 key={item.path}
+                end
                 to={item.path}
                 className={linkClass}
                 onClick={() => setSidebarOpen(false)}

@@ -20,13 +20,16 @@ const RegisterCommunityPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    
     try {
       await communityAPI.register(form);
       setSuccess(true);
       toast.success('Community registered!');
-    } catch (err: any) {
+    } 
+    catch (err: any) {
       toast.error(err.response?.data?.message || 'Registration failed');
-    } finally {
+    } 
+    finally {
       setLoading(false);
     }
   };
