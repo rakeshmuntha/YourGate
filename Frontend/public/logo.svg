@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+  <!-- Gate arch shape -->
+  <rect x="4" y="18" width="6" height="18" rx="1.5" fill="currentColor"/>
+  <rect x="30" y="18" width="6" height="18" rx="1.5" fill="currentColor"/>
+  <!-- Arch top -->
+  <path d="M4 18 Q4 6 20 6 Q36 6 36 18" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <!-- Keystone diamond -->
+  <rect x="17" y="3" width="6" height="6" rx="1" transform="rotate(45 20 6)" fill="currentColor"/>
+</svg>

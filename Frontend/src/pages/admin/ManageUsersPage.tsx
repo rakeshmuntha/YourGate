@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { adminAPI } from '../../services/api';
 import { User } from '../../types';
-import { HiOutlineCheckCircle, HiOutlineXCircle, HiOutlineUsers } from 'react-icons/hi2';
+import { CheckCircle, XCircle, Users } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const ManageUsersPage = () => {
@@ -49,18 +49,18 @@ const ManageUsersPage = () => {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Manage Users</h1>
-        <p className="text-gray-400 mt-1 text-sm">Approve or reject community members</p>
+        <h1 className="text-3xl font-black text-[#141414] dark:text-[#EEEEEE] tracking-tight">Manage Users</h1>
+        <p className="text-[#8A8A8A] dark:text-[#616161] mt-1 text-sm">Approve or reject community members</p>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-6 bg-gray-100 dark:bg-[#1a1a1a] rounded-full p-1 w-fit border border-gray-100 dark:border-[#2a2a2a]">
+      <div className="flex gap-1 mb-6 bg-[#F6F6F6] dark:bg-[#1C1C1C] rounded-full p-1 w-fit border border-[#EEEEEE] dark:border-[#242424]">
         <button
           onClick={() => setTab('pending')}
           className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${
             tab === 'pending'
-              ? 'bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-white shadow-sm'
-              : 'text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+              ? 'bg-white dark:bg-[#242424] text-[#141414] dark:text-[#EEEEEE] shadow-sm'
+              : 'text-[#8A8A8A] dark:text-[#616161] hover:text-[#545454] dark:hover:text-[#9E9E9E]'
           }`}
         >
           Pending {pending.length > 0 && <span className="ml-1 text-xs">({pending.length})</span>}
@@ -69,8 +69,8 @@ const ManageUsersPage = () => {
           onClick={() => setTab('all')}
           className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${
             tab === 'all'
-              ? 'bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-white shadow-sm'
-              : 'text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+              ? 'bg-white dark:bg-[#242424] text-[#141414] dark:text-[#EEEEEE] shadow-sm'
+              : 'text-[#8A8A8A] dark:text-[#616161] hover:text-[#545454] dark:hover:text-[#9E9E9E]'
           }`}
         >
           All Members {allUsers.length > 0 && <span className="ml-1 text-xs">({allUsers.length})</span>}
@@ -81,11 +81,11 @@ const ManageUsersPage = () => {
         <div className="space-y-3">
           {pending.length === 0 && (
             <div className="card text-center py-14">
-              <div className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-[#222] flex items-center justify-center mx-auto mb-4">
-                <HiOutlineUsers className="w-6 h-6 text-gray-400" />
+              <div className="w-12 h-12 rounded-2xl bg-[#EEEEEE] dark:bg-[#1C1C1C] flex items-center justify-center mx-auto mb-4">
+                <Users className="w-6 h-6 text-[#ADADAD] dark:text-[#616161]" />
               </div>
-              <p className="font-semibold text-gray-900 dark:text-white text-sm">No pending requests</p>
-              <p className="text-xs text-gray-400 mt-1">All caught up!</p>
+              <p className="font-semibold text-[#141414] dark:text-[#EEEEEE] text-sm">No pending requests</p>
+              <p className="text-xs text-[#8A8A8A] dark:text-[#616161] mt-1">All caught up!</p>
             </div>
           )}
           {pending.map((u) => (
@@ -95,9 +95,9 @@ const ManageUsersPage = () => {
                   {u.name.charAt(0)}
                 </div>
                 <div>
-                  <h4 className="font-bold text-gray-900 dark:text-white">{u.name}</h4>
-                  <p className="text-xs text-gray-400 mt-0.5">{u.email}</p>
-                  <p className="text-xs text-gray-400">
+                  <h4 className="font-bold text-[#141414] dark:text-[#EEEEEE]">{u.name}</h4>
+                  <p className="text-xs text-[#8A8A8A] dark:text-[#616161] mt-0.5">{u.email}</p>
+                  <p className="text-xs text-[#8A8A8A] dark:text-[#616161]">
                     {u.role}{u.flatNumber && ` · Flat ${u.flatNumber}`}
                   </p>
                 </div>
@@ -107,13 +107,13 @@ const ManageUsersPage = () => {
                   onClick={() => handleApprove(u._id || u.id)}
                   className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition-colors"
                 >
-                  <HiOutlineCheckCircle className="w-3.5 h-3.5" /> Approve
+                  <CheckCircle className="w-3.5 h-3.5" /> Approve
                 </button>
                 <button
                   onClick={() => handleReject(u._id || u.id)}
                   className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-red-50 dark:bg-red-950/20 hover:bg-red-100 dark:hover:bg-red-950/30 text-red-600 dark:text-red-400 text-xs font-semibold transition-colors border border-red-100 dark:border-red-900/30"
                 >
-                  <HiOutlineXCircle className="w-3.5 h-3.5" /> Reject
+                  <XCircle className="w-3.5 h-3.5" /> Reject
                 </button>
               </div>
             </div>
@@ -126,21 +126,21 @@ const ManageUsersPage = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-100 dark:border-[#2a2a2a]">
-                  <th className="text-left py-4 px-5 text-xs font-semibold text-gray-400 uppercase tracking-wider">Name</th>
-                  <th className="text-left py-4 px-5 text-xs font-semibold text-gray-400 uppercase tracking-wider">Email</th>
-                  <th className="text-left py-4 px-5 text-xs font-semibold text-gray-400 uppercase tracking-wider">Role</th>
-                  <th className="text-left py-4 px-5 text-xs font-semibold text-gray-400 uppercase tracking-wider">Flat</th>
-                  <th className="text-left py-4 px-5 text-xs font-semibold text-gray-400 uppercase tracking-wider">Status</th>
+                <tr className="border-b border-[#E2E2E2] dark:border-[#242424]">
+                  <th className="text-left py-4 px-5 text-xs font-semibold text-[#8A8A8A] dark:text-[#616161] uppercase tracking-wider">Name</th>
+                  <th className="text-left py-4 px-5 text-xs font-semibold text-[#8A8A8A] dark:text-[#616161] uppercase tracking-wider">Email</th>
+                  <th className="text-left py-4 px-5 text-xs font-semibold text-[#8A8A8A] dark:text-[#616161] uppercase tracking-wider">Role</th>
+                  <th className="text-left py-4 px-5 text-xs font-semibold text-[#8A8A8A] dark:text-[#616161] uppercase tracking-wider">Flat</th>
+                  <th className="text-left py-4 px-5 text-xs font-semibold text-[#8A8A8A] dark:text-[#616161] uppercase tracking-wider">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50 dark:divide-[#1e1e1e]">
+              <tbody className="divide-y divide-[#F6F6F6] dark:divide-[#1C1C1C]">
                 {allUsers.map((u) => (
-                  <tr key={u._id || u.id} className="hover:bg-gray-50/50 dark:hover:bg-[#1e1e1e]/50 transition-colors">
-                    <td className="py-3.5 px-5 font-semibold text-gray-900 dark:text-white">{u.name}</td>
-                    <td className="py-3.5 px-5 text-gray-400 text-xs">{u.email}</td>
-                    <td className="py-3.5 px-5 text-gray-500 dark:text-gray-400 text-xs">{u.role}</td>
-                    <td className="py-3.5 px-5 text-gray-400 text-xs">{u.flatNumber || '—'}</td>
+                  <tr key={u._id || u.id} className="hover:bg-[#F6F6F6]/50 dark:hover:bg-[#1C1C1C]/50 transition-colors">
+                    <td className="py-3.5 px-5 font-semibold text-[#141414] dark:text-[#EEEEEE]">{u.name}</td>
+                    <td className="py-3.5 px-5 text-[#8A8A8A] dark:text-[#616161] text-xs">{u.email}</td>
+                    <td className="py-3.5 px-5 text-[#8A8A8A] dark:text-[#616161] text-xs">{u.role}</td>
+                    <td className="py-3.5 px-5 text-[#8A8A8A] dark:text-[#616161] text-xs">{u.flatNumber || '—'}</td>
                     <td className="py-3.5 px-5">{statusBadge(u.status)}</td>
                   </tr>
                 ))}

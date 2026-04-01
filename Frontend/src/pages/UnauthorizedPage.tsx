@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom';
-import { HiOutlineShieldExclamation } from 'react-icons/hi2';
+import { ShieldAlert } from 'lucide-react';
 
 const UnauthorizedPage = () => (
-  <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4">
-    <div className="card max-w-md w-full text-center">
-      <div className="w-20 h-20 mx-auto mb-6 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
-        <HiOutlineShieldExclamation className="w-10 h-10 text-red-600" />
+  <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#000000] px-4">
+    <div className="card max-w-md w-full text-center py-12">
+      <div className="w-16 h-16 mx-auto mb-5 bg-[#FDEEEC] dark:bg-[#F4433620] rounded-3xl flex items-center justify-center">
+        <ShieldAlert className="w-8 h-8 text-[#C0392B] dark:text-[#F44336]" />
       </div>
-      <h2 className="text-2xl font-bold mb-3">Access Denied</h2>
-      <p className="text-gray-500 dark:text-gray-400 mb-6">You don&apos;t have permission to access this page.</p>
-      <Link to="/login" className="btn-primary inline-block">Back to Login</Link>
+      <h2 className="text-2xl font-black text-[#141414] dark:text-[#EEEEEE] mb-2">Access Denied</h2>
+      <p className="text-sm text-[#8A8A8A] dark:text-[#616161] mb-7">You don't have permission to access this page.</p>
+      <Link to="/login" className="btn-primary inline-flex">Back to Login</Link>
     </div>
   </div>
 );

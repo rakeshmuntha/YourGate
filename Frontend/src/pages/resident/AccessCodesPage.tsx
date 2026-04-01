@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { HiOutlinePlus, HiOutlineQrCode } from 'react-icons/hi2';
+import { Plus, QrCode } from 'lucide-react';
 import QRCode from 'qrcode';
 import { accessCodeAPI } from '../../services/api';
 import { AccessCode } from '../../types';
@@ -43,11 +43,11 @@ const AccessCodesPage = () => {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Access Codes</h1>
-          <p className="text-gray-400 mt-1 text-sm">Generate & manage visitor access codes</p>
+          <h1 className="text-3xl font-black text-[#141414] dark:text-[#EEEEEE] tracking-tight">Access Codes</h1>
+          <p className="text-[#8A8A8A] dark:text-[#616161] mt-1 text-sm">Generate & manage visitor access codes</p>
         </div>
         <button onClick={() => setShowModal(true)} className="btn-primary flex items-center gap-2 text-sm">
-          <HiOutlinePlus className="w-4 h-4" /> Generate Code
+          <Plus className="w-4 h-4" /> Generate Code
         </button>
       </div>
 
@@ -59,15 +59,15 @@ const AccessCodesPage = () => {
               <span className={code.type === 'GUEST' ? 'badge-active' : 'badge-pending'}>{code.type}</span>
               <span className={code.status === 'ACTIVE' ? 'badge-approved' : 'badge-expired'}>{code.status}</span>
             </div>
-            <p className="text-2xl font-mono font-black tracking-[0.25em] text-center my-5 text-gray-900 dark:text-white">{code.code}</p>
+            <p className="text-2xl font-mono font-black tracking-[0.25em] text-center my-5 text-[#141414] dark:text-[#EEEEEE]">{code.code}</p>
             <div className="space-y-2.5 text-xs mb-5">
               <div className="flex justify-between">
-                <span className="text-gray-400">Usage</span>
-                <span className="font-semibold text-gray-900 dark:text-white">{code.usedCount} / {code.usageLimit}</span>
+                <span className="text-[#8A8A8A] dark:text-[#616161]">Usage</span>
+                <span className="font-semibold text-[#141414] dark:text-[#EEEEEE]">{code.usedCount} / {code.usageLimit}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-400">Expires</span>
-                <span className="font-medium text-gray-600 dark:text-gray-400 text-right max-w-[150px] truncate">{new Date(code.expiresAt).toLocaleString()}</span>
+                <span className="text-[#8A8A8A] dark:text-[#616161]">Expires</span>
+                <span className="font-medium text-[#545454] dark:text-[#616161] text-right max-w-[150px] truncate">{new Date(code.expiresAt).toLocaleString()}</span>
               </div>
             </div>
             {code.status === 'ACTIVE' && (
@@ -75,7 +75,7 @@ const AccessCodesPage = () => {
                 onClick={() => showQR(code.code)}
                 className="btn-secondary w-full flex items-center justify-center gap-2 text-sm py-2.5"
               >
-                <HiOutlineQrCode className="w-4 h-4" /> Show QR Code
+                <QrCode className="w-4 h-4" /> Show QR Code
               </button>
             )}
           </div>
@@ -84,11 +84,11 @@ const AccessCodesPage = () => {
 
       {codes.length === 0 && (
         <div className="card text-center py-16">
-          <div className="w-14 h-14 rounded-2xl bg-gray-100 dark:bg-[#222] flex items-center justify-center mx-auto mb-4">
-            <HiOutlineQrCode className="w-7 h-7 text-gray-400" />
+          <div className="w-14 h-14 rounded-2xl bg-[#EEEEEE] dark:bg-[#1C1C1C] flex items-center justify-center mx-auto mb-4">
+            <QrCode className="w-7 h-7 text-[#ADADAD] dark:text-[#616161]" />
           </div>
-          <p className="font-semibold text-gray-900 dark:text-white">No access codes yet</p>
-          <p className="text-sm text-gray-400 mt-1">Generate one to let visitors in</p>
+          <p className="font-semibold text-[#141414] dark:text-[#EEEEEE]">No access codes yet</p>
+          <p className="text-sm text-[#8A8A8A] dark:text-[#616161] mt-1">Generate one to let visitors in</p>
           <button onClick={() => setShowModal(true)} className="btn-primary mt-5 text-sm">
             Generate Code
           </button>
@@ -98,11 +98,11 @@ const AccessCodesPage = () => {
       {/* Generate Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
-          <div className="bg-white dark:bg-[#1a1a1a] border border-gray-100 dark:border-[#2a2a2a] rounded-3xl w-full max-w-sm p-7 shadow-2xl">
-            <h3 className="text-xl font-black text-gray-900 dark:text-white mb-6">Generate Access Code</h3>
+          <div className="bg-white dark:bg-[#141414] border border-[#E2E2E2] dark:border-[#242424] rounded-3xl w-full max-w-sm p-7 shadow-2xl">
+            <h3 className="text-xl font-black text-[#141414] dark:text-[#EEEEEE] mb-6">Generate Access Code</h3>
             <form onSubmit={handleGenerate} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Visitor Type</label>
+                <label className="block text-sm font-semibold text-[#545454] dark:text-[#9E9E9E] mb-2">Visitor Type</label>
                 <select
                   value={form.type}
                   onChange={(e) => setForm({ ...form, type: e.target.value })}
@@ -113,7 +113,7 @@ const AccessCodesPage = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Expires In (hours)</label>
+                <label className="block text-sm font-semibold text-[#545454] dark:text-[#9E9E9E] mb-2">Expires In (hours)</label>
                 <input
                   type="number"
                   min={1}
@@ -124,7 +124,7 @@ const AccessCodesPage = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Usage Limit</label>
+                <label className="block text-sm font-semibold text-[#545454] dark:text-[#9E9E9E] mb-2">Usage Limit</label>
                 <input
                   type="number"
                   min={1}
@@ -152,15 +152,15 @@ const AccessCodesPage = () => {
           onClick={() => setQrModal(null)}
         >
           <div
-            className="bg-white dark:bg-[#1a1a1a] border border-gray-100 dark:border-[#2a2a2a] rounded-3xl w-full max-w-sm p-8 text-center shadow-2xl"
+            className="bg-white dark:bg-[#141414] border border-[#E2E2E2] dark:border-[#242424] rounded-3xl w-full max-w-sm p-8 text-center shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-xl font-black text-gray-900 dark:text-white mb-1">QR Code</h3>
-            <p className="text-2xl font-mono font-black tracking-[0.25em] text-gray-900 dark:text-white mb-5">{qrModal.code}</p>
+            <h3 className="text-xl font-black text-[#141414] dark:text-[#EEEEEE] mb-1">QR Code</h3>
+            <p className="text-2xl font-mono font-black tracking-[0.25em] text-[#141414] dark:text-[#EEEEEE] mb-5">{qrModal.code}</p>
             <div className="bg-white rounded-2xl p-3 inline-block mb-4">
               <img src={qrModal.qrUrl} alt="QR Code" className="w-56 h-56 rounded-xl" />
             </div>
-            <p className="text-xs text-gray-400 mb-5">Show this to the security guard at the gate</p>
+            <p className="text-xs text-[#8A8A8A] dark:text-[#616161] mb-5">Show this to the security guard at the gate</p>
             <button onClick={() => setQrModal(null)} className="btn-secondary w-full text-sm py-2.5">Close</button>
           </div>
         </div>

@@ -1,21 +1,29 @@
-import { HiSun, HiMoon } from 'react-icons/hi2';
+import { Sun, Moon } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { toggleTheme } from '../../store/slices/themeSlice';
 
 const ThemeToggle = () => {
   const dispatch = useAppDispatch();
   const { theme } = useAppSelector((s) => s.theme);
+  const isDark = theme === 'dark';
 
   return (
     <button
       onClick={() => dispatch(toggleTheme())}
-      className="p-2 rounded-xl bg-gray-100 dark:bg-[#1a1a1a] hover:bg-gray-200 dark:hover:bg-[#222] border border-transparent dark:border-[#2a2a2a] transition-colors"
-      aria-label="Toggle theme"
+      className="relative w-8 h-8 rounded-full flex items-center justify-center
+                 bg-[#F6F6F6] dark:bg-[#1C1C1C]
+                 border border-[#E2E2E2] dark:border-[#2C2C2C]
+                 text-[#545454] dark:text-[#9E9E9E]
+                 hover:bg-[#EEEEEE] dark:hover:bg-[#242424]
+                 hover:text-[#141414] dark:hover:text-[#EEEEEE]
+                 transition-all duration-175
+                 active:scale-[0.93]"
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
-      {theme === 'dark' ? (
-        <HiSun className="w-4 h-4 text-amber-400" />
+      {isDark ? (
+        <Sun className="w-[22px] h-[22px]" />
       ) : (
-        <HiMoon className="w-4 h-4 text-gray-500" />
+        <Moon className="w-[22px] h-[22px]" />
       )}
     </button>
   );

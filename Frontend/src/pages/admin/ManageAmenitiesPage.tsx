@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { amenityAPI } from '../../services/api';
 import { Amenity } from '../../types';
-import { HiOutlinePlus, HiOutlineTrash, HiOutlinePencilSquare, HiOutlineBuildingOffice2 } from 'react-icons/hi2';
+import { Plus, Trash2, Pencil, Building2 } from 'lucide-react';
+import { to12hr } from '../../utils/time';
 import toast from 'react-hot-toast';
 
 const ManageAmenitiesPage = () => {
@@ -83,14 +84,14 @@ const ManageAmenitiesPage = () => {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Amenities</h1>
-          <p className="text-gray-400 mt-1 text-sm">Manage community amenities and time slots</p>
+          <h1 className="text-3xl font-black text-[#141414] dark:text-[#EEEEEE] tracking-tight">Amenities</h1>
+          <p className="text-[#8A8A8A] dark:text-[#616161] mt-1 text-sm">Manage community amenities and time slots</p>
         </div>
         <button
           onClick={() => { resetForm(); setShowModal(true); }}
           className="btn-primary flex items-center gap-2 text-sm"
         >
-          <HiOutlinePlus className="w-4 h-4" /> Add Amenity
+          <Plus className="w-4 h-4" /> Add Amenity
         </button>
       </div>
 
@@ -99,26 +100,26 @@ const ManageAmenitiesPage = () => {
           <div key={a._id} className="card hover:shadow-sm transition-shadow">
             <div className="flex items-start justify-between">
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-[#222] flex items-center justify-center flex-shrink-0">
-                  <HiOutlineBuildingOffice2 className="w-5 h-5 text-gray-500" />
+                <div className="w-10 h-10 rounded-xl bg-[#EEEEEE] dark:bg-[#1C1C1C] flex items-center justify-center flex-shrink-0">
+                  <Building2 className="w-5 h-5 text-[#8A8A8A] dark:text-[#616161]" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 dark:text-white">{a.name}</h3>
-                  <p className="text-sm text-gray-400 mt-0.5 leading-relaxed">{a.description}</p>
+                  <h3 className="font-bold text-[#141414] dark:text-[#EEEEEE]">{a.name}</h3>
+                  <p className="text-sm text-[#8A8A8A] dark:text-[#616161] mt-0.5 leading-relaxed">{a.description}</p>
                 </div>
               </div>
               <div className="flex gap-1 flex-shrink-0 ml-2">
                 <button
                   onClick={() => openEdit(a)}
-                  className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#222] transition-colors text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+                  className="p-2 rounded-xl hover:bg-[#EEEEEE] dark:hover:bg-[#242424] transition-colors text-[#8A8A8A] dark:text-[#616161] hover:text-[#545454] dark:hover:text-[#9E9E9E]"
                 >
-                  <HiOutlinePencilSquare className="w-4 h-4" />
+                  <Pencil className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => handleDelete(a._id)}
-                  className="p-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors text-gray-400 hover:text-red-500"
+                  className="p-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors text-[#8A8A8A] dark:text-[#616161] hover:text-red-500"
                 >
-                  <HiOutlineTrash className="w-4 h-4" />
+                  <Trash2 className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -126,37 +127,37 @@ const ManageAmenitiesPage = () => {
               {a.timeSlots.map((s, i) => (
                 <span
                   key={i}
-                  className="px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-[#222] text-gray-600 dark:text-gray-400"
+                  className="px-2.5 py-1 rounded-full text-xs font-medium bg-[#EEEEEE] dark:bg-[#1C1C1C] text-[#545454] dark:text-[#616161]"
                 >
-                  {s.start}–{s.end}
+                  {to12hr(s.start)}–{to12hr(s.end)}
                 </span>
               ))}
             </div>
-            <p className="text-xs text-gray-400 mt-3">Max {a.bookingLimitPerUser} bookings per user</p>
+            <p className="text-xs text-[#8A8A8A] dark:text-[#616161] mt-3">Max {a.bookingLimitPerUser} bookings per user</p>
           </div>
         ))}
       </div>
 
       {amenities.length === 0 && !showModal && (
         <div className="card text-center py-16">
-          <div className="w-14 h-14 rounded-2xl bg-gray-100 dark:bg-[#222] flex items-center justify-center mx-auto mb-4">
-            <HiOutlineBuildingOffice2 className="w-7 h-7 text-gray-400" />
+          <div className="w-14 h-14 rounded-2xl bg-[#EEEEEE] dark:bg-[#1C1C1C] flex items-center justify-center mx-auto mb-4">
+            <Building2 className="w-7 h-7 text-[#ADADAD] dark:text-[#616161]" />
           </div>
-          <p className="font-semibold text-gray-900 dark:text-white">No amenities yet</p>
-          <p className="text-sm text-gray-400 mt-1">Add your first amenity to get started</p>
+          <p className="font-semibold text-[#141414] dark:text-[#EEEEEE]">No amenities yet</p>
+          <p className="text-sm text-[#8A8A8A] dark:text-[#616161] mt-1">Add your first amenity to get started</p>
         </div>
       )}
 
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
-          <div className="bg-white dark:bg-[#1a1a1a] border border-gray-100 dark:border-[#2a2a2a] rounded-3xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-7 shadow-2xl">
-            <h3 className="text-xl font-black text-gray-900 dark:text-white mb-6">
+          <div className="bg-white dark:bg-[#141414] border border-[#E2E2E2] dark:border-[#242424] rounded-3xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-7 shadow-2xl">
+            <h3 className="text-xl font-black text-[#141414] dark:text-[#EEEEEE] mb-6">
               {editingId ? 'Edit' : 'Create'} Amenity
             </h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Name</label>
+                <label className="block text-sm font-semibold text-[#545454] dark:text-[#9E9E9E] mb-2">Name</label>
                 <input
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -166,7 +167,7 @@ const ManageAmenitiesPage = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Description</label>
+                <label className="block text-sm font-semibold text-[#545454] dark:text-[#9E9E9E] mb-2">Description</label>
                 <textarea
                   value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
@@ -177,7 +178,7 @@ const ManageAmenitiesPage = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Booking Limit Per User</label>
+                <label className="block text-sm font-semibold text-[#545454] dark:text-[#9E9E9E] mb-2">Booking Limit Per User</label>
                 <input
                   type="number"
                   min={1}
@@ -189,13 +190,13 @@ const ManageAmenitiesPage = () => {
               </div>
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Time Slots</label>
+                  <label className="text-sm font-semibold text-[#545454] dark:text-[#9E9E9E]">Time Slots</label>
                   <button
                     type="button"
                     onClick={addSlot}
-                    className="text-xs font-semibold text-gray-900 dark:text-white hover:underline flex items-center gap-1"
+                    className="text-xs font-semibold text-[#141414] dark:text-[#EEEEEE] hover:underline flex items-center gap-1"
                   >
-                    <HiOutlinePlus className="w-3.5 h-3.5" /> Add Slot
+                    <Plus className="w-3.5 h-3.5" /> Add Slot
                   </button>
                 </div>
                 <div className="space-y-2">
@@ -207,7 +208,7 @@ const ManageAmenitiesPage = () => {
                         onChange={(e) => updateSlot(i, 'start', e.target.value)}
                         className="input-field flex-1"
                       />
-                      <span className="text-gray-400 text-sm">→</span>
+                      <span className="text-[#8A8A8A] dark:text-[#616161] text-sm">→</span>
                       <input
                         type="time"
                         value={slot.end}
@@ -220,7 +221,7 @@ const ManageAmenitiesPage = () => {
                           onClick={() => removeSlot(i)}
                           className="p-2 text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-xl transition-colors"
                         >
-                          <HiOutlineTrash className="w-4 h-4" />
+                          <Trash2 className="w-4 h-4" />
                         </button>
                       )}
                     </div>

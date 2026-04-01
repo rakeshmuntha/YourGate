@@ -76,3 +76,16 @@ export interface SlotAvailability {
   end: string;
   available: boolean;
 }
+
+export type PostCategory = 'GENERAL' | 'SERVICE' | 'EVENT' | 'SALE' | 'HELP';
+
+export interface Post {
+  _id: string;
+  authorId: string | { _id: string; name: string; flatNumber?: string; role: Role };
+  communityId: string;
+  content: string;
+  category: PostCategory;
+  imageUrl?: string;
+  createdAt: string;
+  updatedAt: string;
+}

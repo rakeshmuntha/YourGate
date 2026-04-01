@@ -32,6 +32,9 @@ import ManageAmenitiesPage from './pages/admin/ManageAmenitiesPage';
 import AdminBookingsPage from './pages/admin/AdminBookingsPage';
 import AdminVisitorLogs from './pages/admin/AdminVisitorLogs';
 
+// Shared pages
+import CommunityBoardPage from './pages/shared/CommunityBoardPage';
+
 // Super Admin pages
 import SuperAdminDashboard from './pages/superadmin/SuperAdminDashboard';
 import CommunitiesPage from './pages/superadmin/CommunitiesPage';
@@ -96,6 +99,7 @@ const App = () => {
                 <Route path="/resident/access-codes" element={<AccessCodesPage />} />
                 <Route path="/resident/amenities" element={<ResidentAmenitiesPage />} />
                 <Route path="/resident/bookings" element={<ResidentBookingsPage />} />
+                <Route path="/resident/community-board" element={<CommunityBoardPage />} />
             </Route>
 
             {/* Security routes */}
@@ -124,6 +128,7 @@ const App = () => {
                 <Route path="/admin/amenities" element={<ManageAmenitiesPage />} />
                 <Route path="/admin/bookings" element={<AdminBookingsPage />} />
                 <Route path="/admin/visitors" element={<AdminVisitorLogs />} />
+                <Route path="/admin/community-board" element={<CommunityBoardPage />} />
             </Route>
 
             {/* Super Admin routes */}

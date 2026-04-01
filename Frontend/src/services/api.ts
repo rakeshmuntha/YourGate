@@ -66,4 +66,14 @@ export const bookingAPI = {
         api.get(`/bookings/availability?amenityId=${amenityId}&date=${date}`),
 };
 
+// Community Board Posts
+export const postAPI = {
+    getAll: (page = 1, limit = 20) => api.get(`/posts?page=${page}&limit=${limit}`),
+    create: (data: { content: string; category?: string; hasImage?: boolean }) =>
+        api.post('/posts', data),
+    update: (id: string, data: { content: string; category?: string }) =>
+        api.put(`/posts/${id}`, data),
+    delete: (id: string) => api.delete(`/posts/${id}`),
+};
+
 export default api;

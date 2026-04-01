@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { HiOutlineShieldCheck, HiOutlineEye, HiOutlineEyeSlash, HiOutlineCheckCircle } from 'react-icons/hi2';
+import { Eye, EyeOff, CheckCircle } from 'lucide-react';
 import { authAPI, communityAPI } from '../../services/api';
 import ThemeToggle from '../../components/common/ThemeToggle';
 import toast from 'react-hot-toast';
@@ -41,13 +41,13 @@ const RegisterPage = () => {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#0a0a0a] px-4">
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#000000] px-4">
         <div className="card max-w-sm w-full text-center py-10">
-          <div className="w-16 h-16 mx-auto mb-5 bg-emerald-50 dark:bg-emerald-900/20 rounded-3xl flex items-center justify-center">
-            <HiOutlineCheckCircle className="w-8 h-8 text-emerald-600" />
+          <div className="w-16 h-16 mx-auto mb-5 bg-[#EAF7F0] dark:bg-[#06C16720] rounded-3xl flex items-center justify-center">
+            <CheckCircle className="w-8 h-8 text-[#128B53] dark:text-[#06C167]" />
           </div>
-          <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2">Registration Submitted!</h2>
-          <p className="text-gray-400 text-sm mb-7">
+          <h2 className="text-2xl font-black text-[#141414] dark:text-[#EEEEEE] mb-2">Registration Submitted!</h2>
+          <p className="text-[#8A8A8A] text-sm mb-7">
             Your account is pending approval from the community admin. You'll be able to log in once approved.
           </p>
           <button onClick={() => navigate('/login')} className="btn-primary text-sm">Go to Login</button>
@@ -57,25 +57,25 @@ const RegisterPage = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#0a0a0a] px-4 py-12">
+    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#000000] px-4 py-12">
       <div className="w-full max-w-md">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-gray-900 dark:bg-white rounded-xl flex items-center justify-center">
-              <HiOutlineShieldCheck className="w-5 h-5 text-white dark:text-gray-900" />
+            <div className="w-9 h-9 bg-[#141414] dark:bg-white rounded-xl flex items-center justify-center">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-white dark:text-[#141414]"><rect x="2" y="11" width="4" height="11" rx="1"/><rect x="18" y="11" width="4" height="11" rx="1"/><path d="M2 12 Q2 4 12 4 Q22 4 22 12"/><circle cx="12" cy="4" r="1.5" fill="currentColor" stroke="none"/></svg>
             </div>
-            <span className="text-lg font-black text-gray-900 dark:text-white">YourGate</span>
+            <span className="text-lg font-black text-[#141414] dark:text-[#EEEEEE] tracking-[-0.02em]">YourGate</span>
           </div>
           <ThemeToggle />
         </div>
 
         <div className="card">
-          <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-1">Create Account</h2>
-          <p className="text-gray-400 text-sm mb-6">Join your community today</p>
+          <h2 className="text-2xl font-black text-[#141414] dark:text-[#EEEEEE] mb-1">Create Account</h2>
+          <p className="text-[#8A8A8A] dark:text-[#616161] text-sm mb-6">Join your community today</p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
+              <label className="block text-sm font-semibold text-[#141414] dark:text-[#EEEEEE] mb-2">Full Name</label>
               <input
                 type="text"
                 value={form.name}
@@ -86,7 +86,7 @@ const RegisterPage = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Email</label>
+              <label className="block text-sm font-semibold text-[#141414] dark:text-[#EEEEEE] mb-2">Email</label>
               <input
                 type="email"
                 value={form.email}
@@ -97,7 +97,7 @@ const RegisterPage = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Password</label>
+              <label className="block text-sm font-semibold text-[#141414] dark:text-[#EEEEEE] mb-2">Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -111,14 +111,14 @@ const RegisterPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#8A8A8A] dark:text-[#616161] hover:text-[#545454] dark:hover:text-[#9E9E9E]"
                 >
-                  {showPassword ? <HiOutlineEyeSlash className="w-5 h-5" /> : <HiOutlineEye className="w-5 h-5" />}
+                  {showPassword ? <EyeOff className="w-[18px] h-[18px]" /> : <Eye className="w-[18px] h-[18px]" />}
                 </button>
               </div>
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Role</label>
+              <label className="block text-sm font-semibold text-[#141414] dark:text-[#EEEEEE] mb-2">Role</label>
               <select
                 value={form.role}
                 onChange={(e) => setForm({ ...form, role: e.target.value })}
@@ -129,7 +129,7 @@ const RegisterPage = () => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Community</label>
+              <label className="block text-sm font-semibold text-[#141414] dark:text-[#EEEEEE] mb-2">Community</label>
               <select
                 value={form.communityId}
                 onChange={(e) => setForm({ ...form, communityId: e.target.value })}
@@ -144,7 +144,7 @@ const RegisterPage = () => {
             </div>
             {form.role === 'RESIDENT' && (
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Flat / Unit Number</label>
+                <label className="block text-sm font-semibold text-[#141414] dark:text-[#EEEEEE] mb-2">Flat / Unit Number</label>
                 <input
                   type="text"
                   value={form.flatNumber}
@@ -161,9 +161,9 @@ const RegisterPage = () => {
             </div>
           </form>
 
-          <p className="mt-6 text-center text-sm text-gray-400">
+          <p className="mt-6 text-center text-sm text-[#8A8A8A] dark:text-[#616161]">
             Already registered?{' '}
-            <Link to="/login" className="text-gray-900 dark:text-white font-semibold hover:underline">
+            <Link to="/login" className="text-[#141414] dark:text-[#EEEEEE] font-semibold hover:underline">
               Sign in
             </Link>
           </p>

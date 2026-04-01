@@ -11,6 +11,7 @@ import accessCodeRoutes from './routes/accessCode.routes';
 import visitorRoutes from './routes/visitor.routes';
 import amenityRoutes from './routes/amenity.routes';
 import bookingRoutes from './routes/booking.routes';
+import postRoutes from './routes/post.routes';
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use('/api/access-code', accessCodeRoutes);
 app.use('/api/visitor', visitorRoutes);
 app.use('/api/amenities', amenityRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/posts', postRoutes);
 
 // Health check
 app.get('/api/health', (_req, res) => {

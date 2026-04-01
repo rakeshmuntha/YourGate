@@ -3,67 +3,294 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Light mode */
+    --color-bg: #FFFFFF;
+    --color-bg-subtle: #F6F6F6;
+    --color-bg-muted: #EEEEEE;
+    --color-border: #E2E2E2;
+    --color-border-strong: #C8C8C8;
+    --color-text: #141414;
+    --color-text-secondary: #545454;
+    --color-text-tertiary: #8A8A8A;
+    --color-brand: #000000;
+    --color-brand-hover: #141414;
+    --color-brand-fg: #FFFFFF;
+  }
+
+  .dark {
+    /* Dark mode — true Uber black */
+    --color-bg: #000000;
+    --color-bg-subtle: #141414;
+    --color-bg-muted: #1C1C1C;
+    --color-border: #2C2C2C;
+    --color-border-strong: #3C3C3C;
+    --color-text: #EEEEEE;
+    --color-text-secondary: #9E9E9E;
+    --color-text-tertiary: #616161;
+    --color-brand: #FFFFFF;
+    --color-brand-hover: #EEEEEE;
+    --color-brand-fg: #000000;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
   body {
-    @apply bg-white text-gray-900 dark:bg-[#0a0a0a] dark:text-white transition-colors duration-200;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    transition: background-color 200ms ease, color 200ms ease;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
 @layer components {
+
   /* ── Buttons ── */
+  /* Primary: true black pill, white in dark mode */
   .btn-primary {
-    @apply bg-gray-900 hover:bg-black dark:bg-white dark:hover:bg-gray-100 dark:text-gray-900 text-white font-semibold py-3 px-6 rounded-full transition-all duration-200 shadow-none active:scale-[0.97] disabled:opacity-40 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2
+           bg-[#141414] hover:bg-black
+           dark:bg-white dark:hover:bg-[#EEEEEE] dark:text-[#141414]
+           text-white font-semibold
+           text-sm tracking-[-0.006em]
+           py-3 px-6 rounded-full
+           transition-all duration-175 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
+           active:scale-[0.97]
+           disabled:opacity-40 disabled:cursor-not-allowed
+           select-none cursor-pointer;
   }
+
+  /* Secondary: clean outlined pill */
   .btn-secondary {
-    @apply border border-gray-200 dark:border-[#2a2a2a] bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-white font-medium py-3 px-6 rounded-full transition-all duration-200 hover:bg-gray-50 dark:hover:bg-[#222] active:scale-[0.97];
+    @apply inline-flex items-center justify-center gap-2
+           border border-[#E2E2E2] dark:border-[#2C2C2C]
+           bg-white dark:bg-[#141414]
+           text-[#141414] dark:text-[#EEEEEE]
+           font-medium text-sm tracking-[-0.006em]
+           py-3 px-6 rounded-full
+           transition-all duration-175 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
+           hover:bg-[#F6F6F6] dark:hover:bg-[#1C1C1C]
+           active:scale-[0.97]
+           select-none cursor-pointer;
   }
+
+  /* Ghost: no border, just text */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2
+           bg-transparent
+           text-[#141414] dark:text-[#EEEEEE]
+           font-medium text-sm
+           py-2.5 px-4 rounded-full
+           transition-all duration-175
+           hover:bg-[#F6F6F6] dark:hover:bg-[#1C1C1C]
+           active:scale-[0.97]
+           select-none cursor-pointer;
+  }
+
   .btn-danger {
-    @apply bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-full transition-all duration-200 active:scale-[0.97];
+    @apply inline-flex items-center justify-center gap-2
+           bg-[#C0392B] hover:bg-[#a93226]
+           dark:bg-[#F44336] dark:hover:bg-[#E53935]
+           dark:text-white
+           text-white font-semibold text-sm
+           py-3 px-6 rounded-full
+           transition-all duration-175
+           active:scale-[0.97]
+           select-none cursor-pointer;
   }
+
   .btn-success {
-    @apply bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-full transition-all duration-200 active:scale-[0.97];
+    @apply inline-flex items-center justify-center gap-2
+           bg-[#128B53] hover:bg-[#0f7446]
+           dark:bg-[#06C167] dark:hover:bg-[#05ad5a]
+           dark:text-[#000000]
+           text-white font-semibold text-sm
+           py-3 px-6 rounded-full
+           transition-all duration-175
+           active:scale-[0.97]
+           select-none cursor-pointer;
   }
 
   /* ── Cards ── */
+  /* Uber-style: clean white or true dark, ultra-thin border */
   .card {
-    @apply bg-white dark:bg-[#1a1a1a] rounded-2xl border border-gray-100 dark:border-[#2a2a2a] p-6 transition-colors duration-200;
+    @apply bg-white dark:bg-[#141414]
+           rounded-2xl
+           border border-[#E2E2E2] dark:border-[#242424]
+           p-6
+           transition-colors duration-200;
+  }
+
+  .card-hover {
+    @apply card cursor-pointer
+           hover:border-[#C8C8C8] dark:hover:border-[#3C3C3C]
+           hover:shadow-md dark:hover:shadow-dark-md
+           transition-all duration-175;
   }
 
   /* ── Inputs ── */
   .input-field {
-    @apply w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-[#2a2a2a] bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-white focus:ring-2 focus:ring-gray-900 dark:focus:ring-white focus:border-transparent outline-none transition-all duration-200 placeholder:text-gray-400 dark:placeholder:text-gray-600;
+    @apply w-full
+           px-4 py-3
+           rounded-xl
+           border border-[#E2E2E2] dark:border-[#2C2C2C]
+           bg-white dark:bg-[#141414]
+           text-[#141414] dark:text-[#EEEEEE]
+           text-sm tracking-[-0.006em]
+           focus:ring-2 focus:ring-[#141414] dark:focus:ring-white
+           focus:border-transparent
+           outline-none
+           transition-all duration-175
+           placeholder:text-[#ADADAD] dark:placeholder:text-[#616161];
+  }
+
+  /* ── Select/Dropdown ── Uber-style with custom arrow */
+  select {
+    @apply input-field
+           appearance-none
+           bg-right
+           bg-no-repeat
+           cursor-pointer
+           transition-all duration-175;
+    padding-right: 40px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23141414' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-position: right 12px center;
+    background-size: 16px;
+  }
+
+  select:hover {
+    background-color: #F6F6F6;
+    border-color: #C8C8C8;
+  }
+
+  .dark select:hover {
+    background-color: #1C1C1C;
+    border-color: #3C3C3C;
+  }
+
+  select:focus {
+    background-color: white;
+  }
+
+  .dark select:focus {
+    background-color: #141414;
+  }
+
+  select::-webkit-outer-spin-button,
+  select::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  select::-ms-expand {
+    display: none;
+  }
+
+  /* Dark mode select arrow */
+  .dark select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23EEEEEE' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   }
 
   /* ── Badges ── */
   .badge {
-    @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold tracking-wide;
+    @apply inline-flex items-center gap-1
+           px-2.5 py-0.5
+           rounded-full
+           text-xs font-semibold
+           tracking-[0.01em];
   }
+
   .badge-pending {
-    @apply badge bg-amber-50 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400;
+    @apply badge
+           bg-[#FFFBEB] text-[#B45309]
+           dark:bg-[#F59E0B20] dark:text-[#F59E0B];
   }
+
   .badge-approved {
-    @apply badge bg-emerald-50 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400;
+    @apply badge
+           bg-[#EAF7F0] text-[#128B53]
+           dark:bg-[#06C16720] dark:text-[#06C167];
   }
+
   .badge-rejected {
-    @apply badge bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400;
+    @apply badge
+           bg-[#FDEEEC] text-[#C0392B]
+           dark:bg-[#F4433620] dark:text-[#F44336];
   }
+
   .badge-active {
-    @apply badge bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400;
+    @apply badge
+           bg-[#EFF6FF] text-[#1D4ED8]
+           dark:bg-[#60A5FA20] dark:text-[#60A5FA];
   }
+
   .badge-expired {
-    @apply badge bg-gray-100 text-gray-500 dark:bg-white/10 dark:text-gray-400;
+    @apply badge
+           bg-[#EEEEEE] text-[#8A8A8A]
+           dark:bg-[#FFFFFF10] dark:text-[#616161];
+  }
+
+  /* ── Divider ── */
+  .divider {
+    @apply border-t border-[#E2E2E2] dark:border-[#242424];
+  }
+
+  /* ── Section heading ── */
+  .section-title {
+    @apply text-xs font-semibold uppercase tracking-[0.08em]
+           text-[#8A8A8A] dark:text-[#616161]
+           mb-3;
   }
 }
 
-/* ── Scrollbar ── */
+/* ── Animations ── */
+@keyframes progress-bar {
+  0% {
+    width: 0;
+    left: 0;
+  }
+  50% {
+    width: 100%;
+    left: 0;
+  }
+  100% {
+    width: 0;
+    left: 100%;
+  }
+}
+
+/* ── Scrollbar ── Ultra-thin, invisible until hover */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 3px;
+  height: 3px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-200 dark:bg-[#2a2a2a] rounded-full;
+  background: #E2E2E2;
+  border-radius: 99px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #2C2C2C;
 }
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-300 dark:bg-[#333] rounded-full;
+  background: #C8C8C8;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #3C3C3C;
+}
+
+/* ── Focus ring reset — consistent, Uber-like ── */
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
