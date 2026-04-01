@@ -56,10 +56,10 @@ const App = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+            <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#0a0a0a]">
                 <div className="text-center">
                     <LoadingSpinner size="lg" />
-                    <p className="mt-4 text-gray-500 font-medium">Loading YourGate...</p>
+                    <p className="mt-4 text-gray-400 text-sm font-medium">Loading YourGate...</p>
                 </div>
             </div>
         );

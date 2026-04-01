@@ -78,7 +78,8 @@ export class BookingService {
     const bookedSlotTimes = new Set(bookedSlots.map((b) => b.slotTime));
 
     return amenity.timeSlots.map((slot) => ({
-      ...slot,
+      start: slot.start,
+      end: slot.end,
       available: !bookedSlotTimes.has(`${slot.start}-${slot.end}`),
     }));
   }

@@ -20,46 +20,53 @@ const ResidentDashboard = () => {
 
   return (
     <div>
+      {/* Greeting */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">Welcome, {user?.name?.split(' ')[0]}</h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-1">Here&apos;s your community overview</p>
+        <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">
+          Hi, {user?.name?.split(' ')[0]} 👋
+        </h1>
+        <p className="text-gray-400 mt-1 text-sm">Here's your community overview</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-        <StatCard label="Active Codes" count={activeCodes.length} icon={<HiOutlineQrCode className="w-6 h-6" />} color="blue" />
-        <StatCard label="Total Codes" count={codes.length} icon={<HiOutlineTicket className="w-6 h-6" />} color="purple" />
-        <StatCard label="Active Bookings" count={confirmedBookings.length} icon={<HiOutlineCalendarDays className="w-6 h-6" />} color="green" />
+      {/* Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        <StatCard label="Active Codes" count={activeCodes.length} icon={<HiOutlineQrCode className="w-5 h-5" />} color="blue" />
+        <StatCard label="Total Codes" count={codes.length} icon={<HiOutlineTicket className="w-5 h-5" />} color="purple" />
+        <StatCard label="Active Bookings" count={confirmedBookings.length} icon={<HiOutlineCalendarDays className="w-5 h-5" />} color="green" />
       </div>
 
-      {/* Recent codes */}
+      {/* Recent Access Codes */}
       <div className="card">
-        <h2 className="text-lg font-semibold mb-4">Recent Access Codes</h2>
+        <h2 className="text-base font-bold text-gray-900 dark:text-white mb-5">Recent Access Codes</h2>
         {codes.length === 0 ? (
-          <p className="text-gray-400 text-sm py-4">No access codes generated yet</p>
+          <div className="py-8 text-center">
+            <HiOutlineQrCode className="w-10 h-10 mx-auto text-gray-300 dark:text-gray-700 mb-3" />
+            <p className="text-sm text-gray-400">No access codes generated yet</p>
+          </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-200 dark:border-gray-700">
-                  <th className="text-left py-3 px-2 font-medium text-gray-500 dark:text-gray-400">Code</th>
-                  <th className="text-left py-3 px-2 font-medium text-gray-500 dark:text-gray-400">Type</th>
-                  <th className="text-left py-3 px-2 font-medium text-gray-500 dark:text-gray-400">Status</th>
-                  <th className="text-left py-3 px-2 font-medium text-gray-500 dark:text-gray-400">Usage</th>
-                  <th className="text-left py-3 px-2 font-medium text-gray-500 dark:text-gray-400">Expires</th>
+                <tr className="border-b border-gray-100 dark:border-[#2a2a2a]">
+                  <th className="text-left pb-3 px-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Code</th>
+                  <th className="text-left pb-3 px-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Type</th>
+                  <th className="text-left pb-3 px-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Status</th>
+                  <th className="text-left pb-3 px-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Usage</th>
+                  <th className="text-left pb-3 px-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Expires</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-gray-50 dark:divide-[#1e1e1e]">
                 {codes.slice(0, 5).map((code) => (
-                  <tr key={code._id} className="border-b border-gray-100 dark:border-gray-800">
-                    <td className="py-3 px-2 font-mono font-semibold">{code.code}</td>
+                  <tr key={code._id}>
+                    <td className="py-3 px-2 font-mono font-bold text-gray-900 dark:text-white text-sm tracking-widest">{code.code}</td>
                     <td className="py-3 px-2">
                       <span className={code.type === 'GUEST' ? 'badge-active' : 'badge-pending'}>{code.type}</span>
                     </td>
                     <td className="py-3 px-2">
                       <span className={code.status === 'ACTIVE' ? 'badge-approved' : 'badge-expired'}>{code.status}</span>
                     </td>
-                    <td className="py-3 px-2">{code.usedCount}/{code.usageLimit}</td>
-                    <td className="py-3 px-2 text-gray-500">{new Date(code.expiresAt).toLocaleString()}</td>
+                    <td className="py-3 px-2 text-gray-500 dark:text-gray-400 text-xs">{code.usedCount}/{code.usageLimit}</td>
+                    <td className="py-3 px-2 text-gray-400 text-xs">{new Date(code.expiresAt).toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>

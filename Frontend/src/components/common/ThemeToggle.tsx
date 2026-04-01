@@ -9,13 +9,13 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={() => dispatch(toggleTheme())}
-      className="p-2 rounded-xl bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+      className="p-2 rounded-xl bg-gray-100 dark:bg-[#1a1a1a] hover:bg-gray-200 dark:hover:bg-[#222] border border-transparent dark:border-[#2a2a2a] transition-colors"
       aria-label="Toggle theme"
     >
       {theme === 'dark' ? (
-        <HiSun className="w-5 h-5 text-amber-400" />
+        <HiSun className="w-4 h-4 text-amber-400" />
       ) : (
-        <HiMoon className="w-5 h-5 text-gray-600" />
+        <HiMoon className="w-4 h-4 text-gray-500" />
       )}
     </button>
   );

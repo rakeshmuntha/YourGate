@@ -27,16 +27,16 @@ const AdminDashboard = () => {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-1">Manage your community</p>
+        <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Dashboard</h1>
+        <p className="text-gray-400 mt-1 text-sm">Manage your community</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-        <StatCard label="Pending Requests" count={stats.pending} icon={<HiOutlineUsers className="w-6 h-6" />} color="amber" />
-        <StatCard label="Total Members" count={stats.total} icon={<HiOutlineUsers className="w-6 h-6" />} color="blue" />
-        <StatCard label="Amenities" count={stats.amenities} icon={<HiOutlineBuildingOffice2 className="w-6 h-6" />} color="purple" />
-        <StatCard label="Visitor Entries" count={stats.visitors} icon={<HiOutlineClipboardDocumentList className="w-6 h-6" />} color="green" />
-        <StatCard label="Bookings" count={stats.bookings} icon={<HiOutlineCalendarDays className="w-6 h-6" />} color="primary" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+        <StatCard label="Pending Requests" count={stats.pending} icon={<HiOutlineUsers className="w-5 h-5" />} color="amber" />
+        <StatCard label="Total Members" count={stats.total} icon={<HiOutlineUsers className="w-5 h-5" />} color="blue" />
+        <StatCard label="Amenities" count={stats.amenities} icon={<HiOutlineBuildingOffice2 className="w-5 h-5" />} color="purple" />
+        <StatCard label="Visitor Entries" count={stats.visitors} icon={<HiOutlineClipboardDocumentList className="w-5 h-5" />} color="green" />
+        <StatCard label="Bookings" count={stats.bookings} icon={<HiOutlineCalendarDays className="w-5 h-5" />} color="primary" />
       </div>
     </div>
   );

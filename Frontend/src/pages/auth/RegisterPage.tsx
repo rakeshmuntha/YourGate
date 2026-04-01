@@ -41,43 +41,41 @@ const RegisterPage = () => {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4">
-        <div className="card max-w-md w-full text-center">
-          <div className="w-20 h-20 mx-auto mb-6 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center">
-            <HiOutlineCheckCircle className="w-10 h-10 text-emerald-600" />
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#0a0a0a] px-4">
+        <div className="card max-w-sm w-full text-center py-10">
+          <div className="w-16 h-16 mx-auto mb-5 bg-emerald-50 dark:bg-emerald-900/20 rounded-3xl flex items-center justify-center">
+            <HiOutlineCheckCircle className="w-8 h-8 text-emerald-600" />
           </div>
-          <h2 className="text-2xl font-bold mb-3">Registration Submitted!</h2>
-          <p className="text-gray-500 dark:text-gray-400 mb-6">
-            Your account is pending approval from the community admin. You&apos;ll be able to log in once approved.
+          <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-2">Registration Submitted!</h2>
+          <p className="text-gray-400 text-sm mb-7">
+            Your account is pending approval from the community admin. You'll be able to log in once approved.
           </p>
-          <button onClick={() => navigate('/login')} className="btn-primary">
-            Go to Login
-          </button>
+          <button onClick={() => navigate('/login')} className="btn-primary text-sm">Go to Login</button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4 py-12">
-      <div className="w-full max-w-lg">
+    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#0a0a0a] px-4 py-12">
+      <div className="w-full max-w-md">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center">
-              <HiOutlineShieldCheck className="w-6 h-6 text-white" />
+            <div className="w-9 h-9 bg-gray-900 dark:bg-white rounded-xl flex items-center justify-center">
+              <HiOutlineShieldCheck className="w-5 h-5 text-white dark:text-gray-900" />
             </div>
-            <span className="text-xl font-bold text-primary-600">YourGate</span>
+            <span className="text-lg font-black text-gray-900 dark:text-white">YourGate</span>
           </div>
           <ThemeToggle />
         </div>
 
         <div className="card">
-          <h2 className="text-2xl font-bold mb-2">Create Account</h2>
-          <p className="text-gray-500 dark:text-gray-400 mb-6">Join your community today</p>
+          <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-1">Create Account</h2>
+          <p className="text-gray-400 text-sm mb-6">Join your community today</p>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-2">Full Name</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
               <input
                 type="text"
                 value={form.name}
@@ -87,9 +85,8 @@ const RegisterPage = () => {
                 required
               />
             </div>
-
             <div>
-              <label className="block text-sm font-medium mb-2">Email</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Email</label>
               <input
                 type="email"
                 value={form.email}
@@ -99,9 +96,8 @@ const RegisterPage = () => {
                 required
               />
             </div>
-
             <div>
-              <label className="block text-sm font-medium mb-2">Password</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -115,15 +111,14 @@ const RegisterPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                 >
                   {showPassword ? <HiOutlineEyeSlash className="w-5 h-5" /> : <HiOutlineEye className="w-5 h-5" />}
                 </button>
               </div>
             </div>
-
             <div>
-              <label className="block text-sm font-medium mb-2">Role</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Role</label>
               <select
                 value={form.role}
                 onChange={(e) => setForm({ ...form, role: e.target.value })}
@@ -133,9 +128,8 @@ const RegisterPage = () => {
                 <option value="SECURITY">Security Guard</option>
               </select>
             </div>
-
             <div>
-              <label className="block text-sm font-medium mb-2">Community</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Community</label>
               <select
                 value={form.communityId}
                 onChange={(e) => setForm({ ...form, communityId: e.target.value })}
@@ -144,16 +138,13 @@ const RegisterPage = () => {
               >
                 <option value="">Select a community</option>
                 {communities.map((c) => (
-                  <option key={c._id} value={c._id}>
-                    {c.communityName}
-                  </option>
+                  <option key={c._id} value={c._id}>{c.communityName}</option>
                 ))}
               </select>
             </div>
-
             {form.role === 'RESIDENT' && (
               <div>
-                <label className="block text-sm font-medium mb-2">Flat / Unit Number</label>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Flat / Unit Number</label>
                 <input
                   type="text"
                   value={form.flatNumber}
@@ -163,15 +154,16 @@ const RegisterPage = () => {
                 />
               </div>
             )}
-
-            <button type="submit" disabled={loading} className="btn-primary w-full py-3 text-base">
-              {loading ? 'Submitting...' : 'Submit Registration'}
-            </button>
+            <div className="pt-1">
+              <button type="submit" disabled={loading} className="btn-primary w-full text-sm">
+                {loading ? 'Submitting...' : 'Submit Registration'}
+              </button>
+            </div>
           </form>
 
-          <p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+          <p className="mt-6 text-center text-sm text-gray-400">
             Already registered?{' '}
-            <Link to="/login" className="text-primary-600 hover:text-primary-700 font-medium">
+            <Link to="/login" className="text-gray-900 dark:text-white font-semibold hover:underline">
               Sign in
             </Link>
           </p>

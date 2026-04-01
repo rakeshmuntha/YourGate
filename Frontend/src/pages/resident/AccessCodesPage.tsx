@@ -35,7 +35,7 @@ const AccessCodesPage = () => {
   };
 
   const showQR = async (code: string) => {
-    const qrUrl = await QRCode.toDataURL(code, { width: 250, margin: 2 });
+    const qrUrl = await QRCode.toDataURL(code, { width: 260, margin: 2 });
     setQrModal({ code, qrUrl });
   };
 
@@ -43,36 +43,39 @@ const AccessCodesPage = () => {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold">Access Codes</h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">Generate & manage visitor access codes</p>
+          <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Access Codes</h1>
+          <p className="text-gray-400 mt-1 text-sm">Generate & manage visitor access codes</p>
         </div>
-        <button onClick={() => setShowModal(true)} className="btn-primary flex items-center gap-2">
-          <HiOutlinePlus className="w-5 h-5" /> Generate Code
+        <button onClick={() => setShowModal(true)} className="btn-primary flex items-center gap-2 text-sm">
+          <HiOutlinePlus className="w-4 h-4" /> Generate Code
         </button>
       </div>
 
       {/* Codes Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {codes.map((code) => (
-          <div key={code._id} className="card hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between mb-3">
+          <div key={code._id} className="card hover:shadow-sm transition-shadow">
+            <div className="flex items-center justify-between mb-4">
               <span className={code.type === 'GUEST' ? 'badge-active' : 'badge-pending'}>{code.type}</span>
               <span className={code.status === 'ACTIVE' ? 'badge-approved' : 'badge-expired'}>{code.status}</span>
             </div>
-            <p className="text-2xl font-mono font-bold tracking-widest text-center my-4">{code.code}</p>
-            <div className="space-y-2 text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-2xl font-mono font-black tracking-[0.25em] text-center my-5 text-gray-900 dark:text-white">{code.code}</p>
+            <div className="space-y-2.5 text-xs mb-5">
               <div className="flex justify-between">
-                <span>Usage</span>
-                <span className="font-medium text-gray-700 dark:text-gray-300">{code.usedCount} / {code.usageLimit}</span>
+                <span className="text-gray-400">Usage</span>
+                <span className="font-semibold text-gray-900 dark:text-white">{code.usedCount} / {code.usageLimit}</span>
               </div>
               <div className="flex justify-between">
-                <span>Expires</span>
-                <span className="font-medium text-gray-700 dark:text-gray-300">{new Date(code.expiresAt).toLocaleString()}</span>
+                <span className="text-gray-400">Expires</span>
+                <span className="font-medium text-gray-600 dark:text-gray-400 text-right max-w-[150px] truncate">{new Date(code.expiresAt).toLocaleString()}</span>
               </div>
             </div>
             {code.status === 'ACTIVE' && (
-              <button onClick={() => showQR(code.code)} className="btn-secondary w-full mt-4 flex items-center justify-center gap-2">
-                <HiOutlineQrCode className="w-5 h-5" /> Show QR Code
+              <button
+                onClick={() => showQR(code.code)}
+                className="btn-secondary w-full flex items-center justify-center gap-2 text-sm py-2.5"
+              >
+                <HiOutlineQrCode className="w-4 h-4" /> Show QR Code
               </button>
             )}
           </div>
@@ -81,19 +84,25 @@ const AccessCodesPage = () => {
 
       {codes.length === 0 && (
         <div className="card text-center py-16">
-          <HiOutlineQrCode className="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" />
-          <p className="text-gray-500 dark:text-gray-400">No access codes yet. Generate one to get started!</p>
+          <div className="w-14 h-14 rounded-2xl bg-gray-100 dark:bg-[#222] flex items-center justify-center mx-auto mb-4">
+            <HiOutlineQrCode className="w-7 h-7 text-gray-400" />
+          </div>
+          <p className="font-semibold text-gray-900 dark:text-white">No access codes yet</p>
+          <p className="text-sm text-gray-400 mt-1">Generate one to let visitors in</p>
+          <button onClick={() => setShowModal(true)} className="btn-primary mt-5 text-sm">
+            Generate Code
+          </button>
         </div>
       )}
 
       {/* Generate Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-          <div className="card w-full max-w-md">
-            <h3 className="text-xl font-bold mb-6">Generate Access Code</h3>
-            <form onSubmit={handleGenerate} className="space-y-5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+          <div className="bg-white dark:bg-[#1a1a1a] border border-gray-100 dark:border-[#2a2a2a] rounded-3xl w-full max-w-sm p-7 shadow-2xl">
+            <h3 className="text-xl font-black text-gray-900 dark:text-white mb-6">Generate Access Code</h3>
+            <form onSubmit={handleGenerate} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2">Visitor Type</label>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Visitor Type</label>
                 <select
                   value={form.type}
                   onChange={(e) => setForm({ ...form, type: e.target.value })}
@@ -104,7 +113,7 @@ const AccessCodesPage = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Expires In (hours)</label>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Expires In (hours)</label>
                 <input
                   type="number"
                   min={1}
@@ -115,7 +124,7 @@ const AccessCodesPage = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Usage Limit</label>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Usage Limit</label>
                 <input
                   type="number"
                   min={1}
@@ -125,9 +134,9 @@ const AccessCodesPage = () => {
                   className="input-field"
                 />
               </div>
-              <div className="flex gap-3">
-                <button type="button" onClick={() => setShowModal(false)} className="btn-secondary flex-1">Cancel</button>
-                <button type="submit" disabled={loading} className="btn-primary flex-1">
+              <div className="flex gap-3 pt-2">
+                <button type="button" onClick={() => setShowModal(false)} className="btn-secondary flex-1 text-sm py-2.5">Cancel</button>
+                <button type="submit" disabled={loading} className="btn-primary flex-1 text-sm py-2.5">
                   {loading ? 'Generating...' : 'Generate'}
                 </button>
               </div>
@@ -138,13 +147,21 @@ const AccessCodesPage = () => {
 
       {/* QR Modal */}
       {qrModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" onClick={() => setQrModal(null)}>
-          <div className="card w-full max-w-sm text-center" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-xl font-bold mb-2">QR Code</h3>
-            <p className="text-2xl font-mono font-bold tracking-widest mb-4">{qrModal.code}</p>
-            <img src={qrModal.qrUrl} alt="QR Code" className="mx-auto rounded-xl" />
-            <p className="text-sm text-gray-400 mt-4">Show this to the security guard at the gate</p>
-            <button onClick={() => setQrModal(null)} className="btn-secondary w-full mt-4">Close</button>
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+          onClick={() => setQrModal(null)}
+        >
+          <div
+            className="bg-white dark:bg-[#1a1a1a] border border-gray-100 dark:border-[#2a2a2a] rounded-3xl w-full max-w-sm p-8 text-center shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-xl font-black text-gray-900 dark:text-white mb-1">QR Code</h3>
+            <p className="text-2xl font-mono font-black tracking-[0.25em] text-gray-900 dark:text-white mb-5">{qrModal.code}</p>
+            <div className="bg-white rounded-2xl p-3 inline-block mb-4">
+              <img src={qrModal.qrUrl} alt="QR Code" className="w-56 h-56 rounded-xl" />
+            </div>
+            <p className="text-xs text-gray-400 mb-5">Show this to the security guard at the gate</p>
+            <button onClick={() => setQrModal(null)} className="btn-secondary w-full text-sm py-2.5">Close</button>
           </div>
         </div>
       )}

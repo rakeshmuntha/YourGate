@@ -35,52 +35,52 @@ const DashboardLayout = () => {
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
       isActive
-        ? 'bg-primary-600 text-white shadow-md shadow-primary-600/25'
-        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200'
+        ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
+        : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-[#222] hover:text-gray-900 dark:hover:text-white'
     }`;
 
   return (
-    <div className="min-h-screen flex bg-gray-50 dark:bg-gray-950">
+    <div className="min-h-screen flex bg-gray-50 dark:bg-[#0a0a0a]">
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/60 z-40 lg:hidden backdrop-blur-sm"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-72 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transform transition-transform duration-300 lg:translate-x-0 ${
+        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white dark:bg-[#111111] border-r border-gray-100 dark:border-[#1e1e1e] transform transition-transform duration-300 lg:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <div className="flex items-center justify-between px-6 py-5 border-b border-gray-200 dark:border-gray-800">
+          <div className="flex items-center justify-between px-5 py-5 border-b border-gray-100 dark:border-[#1e1e1e]">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center shadow-lg shadow-primary-600/25">
-                <HiOutlineShieldCheck className="w-6 h-6 text-white" />
+              <div className="w-9 h-9 bg-gray-900 dark:bg-white rounded-xl flex items-center justify-center">
+                <HiOutlineShieldCheck className="w-5 h-5 text-white dark:text-gray-900" />
               </div>
               <div>
-                <h1 className="text-lg font-bold bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
+                <h1 className="text-base font-black text-gray-900 dark:text-white tracking-tight">
                   YourGate
                 </h1>
-                <p className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">
-                  Community Manager
+                <p className="text-[9px] text-gray-400 font-medium uppercase tracking-widest">
+                  Community
                 </p>
               </div>
             </div>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="lg:hidden p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="lg:hidden p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-[#222] text-gray-400"
             >
               <HiXMark className="w-5 h-5" />
             </button>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+          <nav className="flex-1 px-3 py-5 space-y-0.5 overflow-y-auto">
             {navItems.map((item) => (
               <NavLink
                 key={item.path}
@@ -96,21 +96,21 @@ const DashboardLayout = () => {
           </nav>
 
           {/* User info + Logout */}
-          <div className="p-4 border-t border-gray-200 dark:border-gray-800">
-            <div className="flex items-center gap-3 mb-4 px-2">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold text-sm shadow">
+          <div className="p-4 border-t border-gray-100 dark:border-[#1e1e1e]">
+            <div className="flex items-center gap-3 mb-3 px-1">
+              <div className="w-9 h-9 rounded-full bg-gray-900 dark:bg-white flex items-center justify-center text-white dark:text-gray-900 font-bold text-sm flex-shrink-0">
                 {user?.name?.charAt(0).toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold truncate">{user?.name}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user?.role?.replace('_', ' ')}</p>
+                <p className="text-sm font-semibold truncate text-gray-900 dark:text-white">{user?.name}</p>
+                <p className="text-xs text-gray-400 truncate">{user?.role?.replace('_', ' ')}</p>
               </div>
             </div>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+              className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors"
             >
-              <HiOutlineArrowRightOnRectangle className="w-5 h-5" />
+              <HiOutlineArrowRightOnRectangle className="w-4 h-4" />
               Sign Out
             </button>
           </div>
@@ -120,13 +120,13 @@ const DashboardLayout = () => {
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}
-        <header className="sticky top-0 z-30 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800">
-          <div className="flex items-center justify-between px-4 lg:px-8 py-4">
+        <header className="sticky top-0 z-30 bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-xl border-b border-gray-100 dark:border-[#1e1e1e]">
+          <div className="flex items-center justify-between px-4 lg:px-6 py-4">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="lg:hidden p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#1a1a1a] text-gray-600 dark:text-gray-400"
             >
-              <HiBars3 className="w-6 h-6" />
+              <HiBars3 className="w-5 h-5" />
             </button>
             <div className="hidden lg:block" />
             <div className="flex items-center gap-3">
@@ -149,35 +149,35 @@ function getNavItems(role: Role) {
 
   if (role === Role.SUPER_ADMIN) {
     items.push(
-      { path: '/super-admin', label: 'Dashboard', icon: <HiOutlineHome className="w-5 h-5" /> },
-      { path: '/super-admin/communities', label: 'Communities', icon: <HiOutlineBuildingOffice2 className="w-5 h-5" /> }
+      { path: '/super-admin', label: 'Dashboard', icon: <HiOutlineHome className="w-4.5 h-4.5" /> },
+      { path: '/super-admin/communities', label: 'Communities', icon: <HiOutlineBuildingOffice2 className="w-4.5 h-4.5" /> }
     );
   }
 
   if (role === Role.ADMIN) {
     items.push(
-      { path: '/admin', label: 'Dashboard', icon: <HiOutlineHome className="w-5 h-5" /> },
-      { path: '/admin/users', label: 'Manage Users', icon: <HiOutlineUsers className="w-5 h-5" /> },
-      { path: '/admin/amenities', label: 'Amenities', icon: <HiOutlineBuildingOffice2 className="w-5 h-5" /> },
-      { path: '/admin/bookings', label: 'Bookings', icon: <HiOutlineCalendarDays className="w-5 h-5" /> },
-      { path: '/admin/visitors', label: 'Visitor Logs', icon: <HiOutlineClipboardDocumentList className="w-5 h-5" /> }
+      { path: '/admin', label: 'Dashboard', icon: <HiOutlineHome className="w-4.5 h-4.5" /> },
+      { path: '/admin/users', label: 'Manage Users', icon: <HiOutlineUsers className="w-4.5 h-4.5" /> },
+      { path: '/admin/amenities', label: 'Amenities', icon: <HiOutlineBuildingOffice2 className="w-4.5 h-4.5" /> },
+      { path: '/admin/bookings', label: 'Bookings', icon: <HiOutlineCalendarDays className="w-4.5 h-4.5" /> },
+      { path: '/admin/visitors', label: 'Visitor Logs', icon: <HiOutlineClipboardDocumentList className="w-4.5 h-4.5" /> }
     );
   }
 
   if (role === Role.RESIDENT) {
     items.push(
-      { path: '/resident', label: 'Dashboard', icon: <HiOutlineHome className="w-5 h-5" /> },
-      { path: '/resident/access-codes', label: 'Access Codes', icon: <HiOutlineQrCode className="w-5 h-5" /> },
-      { path: '/resident/amenities', label: 'Amenities', icon: <HiOutlineBuildingOffice2 className="w-5 h-5" /> },
-      { path: '/resident/bookings', label: 'My Bookings', icon: <HiOutlineCalendarDays className="w-5 h-5" /> }
+      { path: '/resident', label: 'Dashboard', icon: <HiOutlineHome className="w-4.5 h-4.5" /> },
+      { path: '/resident/access-codes', label: 'Access Codes', icon: <HiOutlineQrCode className="w-4.5 h-4.5" /> },
+      { path: '/resident/amenities', label: 'Amenities', icon: <HiOutlineBuildingOffice2 className="w-4.5 h-4.5" /> },
+      { path: '/resident/bookings', label: 'My Bookings', icon: <HiOutlineCalendarDays className="w-4.5 h-4.5" /> }
     );
   }
 
   if (role === Role.SECURITY) {
     items.push(
-      { path: '/security', label: 'Dashboard', icon: <HiOutlineHome className="w-5 h-5" /> },
-      { path: '/security/verify', label: 'Verify Code', icon: <HiOutlineShieldCheck className="w-5 h-5" /> },
-      { path: '/security/visitors', label: 'Visitor Logs', icon: <HiOutlineClipboardDocumentList className="w-5 h-5" /> }
+      { path: '/security', label: 'Dashboard', icon: <HiOutlineHome className="w-4.5 h-4.5" /> },
+      { path: '/security/verify', label: 'Verify Code', icon: <HiOutlineShieldCheck className="w-4.5 h-4.5" /> },
+      { path: '/security/visitors', label: 'Visitor Logs', icon: <HiOutlineClipboardDocumentList className="w-4.5 h-4.5" /> }
     );
   }
 

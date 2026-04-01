@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { amenityAPI } from '../../services/api';
 import { Amenity } from '../../types';
-import { HiOutlinePlus, HiOutlineTrash, HiOutlinePencilSquare } from 'react-icons/hi2';
+import { HiOutlinePlus, HiOutlineTrash, HiOutlinePencilSquare, HiOutlineBuildingOffice2 } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 
 const ManageAmenitiesPage = () => {
@@ -83,35 +83,52 @@ const ManageAmenitiesPage = () => {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold">Amenities</h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">Manage community amenities</p>
+          <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Amenities</h1>
+          <p className="text-gray-400 mt-1 text-sm">Manage community amenities and time slots</p>
         </div>
-        <button onClick={() => { resetForm(); setShowModal(true); }} className="btn-primary flex items-center gap-2">
-          <HiOutlinePlus className="w-5 h-5" /> Add Amenity
+        <button
+          onClick={() => { resetForm(); setShowModal(true); }}
+          className="btn-primary flex items-center gap-2 text-sm"
+        >
+          <HiOutlinePlus className="w-4 h-4" /> Add Amenity
         </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {amenities.map((a) => (
-          <div key={a._id} className="card">
+          <div key={a._id} className="card hover:shadow-sm transition-shadow">
             <div className="flex items-start justify-between">
-              <div>
-                <h3 className="text-lg font-bold">{a.name}</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{a.description}</p>
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-[#222] flex items-center justify-center flex-shrink-0">
+                  <HiOutlineBuildingOffice2 className="w-5 h-5 text-gray-500" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 dark:text-white">{a.name}</h3>
+                  <p className="text-sm text-gray-400 mt-0.5 leading-relaxed">{a.description}</p>
+                </div>
               </div>
-              <div className="flex gap-1">
-                <button onClick={() => openEdit(a)} className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                  <HiOutlinePencilSquare className="w-5 h-5 text-gray-500" />
+              <div className="flex gap-1 flex-shrink-0 ml-2">
+                <button
+                  onClick={() => openEdit(a)}
+                  className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-[#222] transition-colors text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+                >
+                  <HiOutlinePencilSquare className="w-4 h-4" />
                 </button>
-                <button onClick={() => handleDelete(a._id)} className="p-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/30">
-                  <HiOutlineTrash className="w-5 h-5 text-red-500" />
+                <button
+                  onClick={() => handleDelete(a._id)}
+                  className="p-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/20 transition-colors text-gray-400 hover:text-red-500"
+                >
+                  <HiOutlineTrash className="w-4 h-4" />
                 </button>
               </div>
             </div>
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-4 flex flex-wrap gap-1.5">
               {a.timeSlots.map((s, i) => (
-                <span key={i} className="badge bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400">
-                  {s.start} - {s.end}
+                <span
+                  key={i}
+                  className="px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-[#222] text-gray-600 dark:text-gray-400"
+                >
+                  {s.start}–{s.end}
                 </span>
               ))}
             </div>
@@ -120,37 +137,89 @@ const ManageAmenitiesPage = () => {
         ))}
       </div>
 
+      {amenities.length === 0 && !showModal && (
+        <div className="card text-center py-16">
+          <div className="w-14 h-14 rounded-2xl bg-gray-100 dark:bg-[#222] flex items-center justify-center mx-auto mb-4">
+            <HiOutlineBuildingOffice2 className="w-7 h-7 text-gray-400" />
+          </div>
+          <p className="font-semibold text-gray-900 dark:text-white">No amenities yet</p>
+          <p className="text-sm text-gray-400 mt-1">Add your first amenity to get started</p>
+        </div>
+      )}
+
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-          <div className="card w-full max-w-lg max-h-[90vh] overflow-y-auto">
-            <h3 className="text-xl font-bold mb-6">{editingId ? 'Edit' : 'Create'} Amenity</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+          <div className="bg-white dark:bg-[#1a1a1a] border border-gray-100 dark:border-[#2a2a2a] rounded-3xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-7 shadow-2xl">
+            <h3 className="text-xl font-black text-gray-900 dark:text-white mb-6">
+              {editingId ? 'Edit' : 'Create'} Amenity
+            </h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2">Name</label>
-                <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input-field" required />
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Name</label>
+                <input
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  className="input-field"
+                  placeholder="Swimming Pool"
+                  required
+                />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Description</label>
-                <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="input-field" rows={3} required />
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Description</label>
+                <textarea
+                  value={form.description}
+                  onChange={(e) => setForm({ ...form, description: e.target.value })}
+                  className="input-field resize-none"
+                  rows={3}
+                  placeholder="Describe the amenity..."
+                  required
+                />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Booking Limit Per User</label>
-                <input type="number" min={1} max={10} value={form.bookingLimitPerUser} onChange={(e) => setForm({ ...form, bookingLimitPerUser: +e.target.value })} className="input-field" />
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Booking Limit Per User</label>
+                <input
+                  type="number"
+                  min={1}
+                  max={10}
+                  value={form.bookingLimitPerUser}
+                  onChange={(e) => setForm({ ...form, bookingLimitPerUser: +e.target.value })}
+                  className="input-field"
+                />
               </div>
               <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm font-medium">Time Slots</label>
-                  <button type="button" onClick={addSlot} className="text-primary-600 text-sm font-medium">+ Add Slot</button>
+                <div className="flex items-center justify-between mb-3">
+                  <label className="text-sm font-semibold text-gray-700 dark:text-gray-300">Time Slots</label>
+                  <button
+                    type="button"
+                    onClick={addSlot}
+                    className="text-xs font-semibold text-gray-900 dark:text-white hover:underline flex items-center gap-1"
+                  >
+                    <HiOutlinePlus className="w-3.5 h-3.5" /> Add Slot
+                  </button>
                 </div>
                 <div className="space-y-2">
                   {form.timeSlots.map((slot, i) => (
                     <div key={i} className="flex items-center gap-2">
-                      <input type="time" value={slot.start} onChange={(e) => updateSlot(i, 'start', e.target.value)} className="input-field flex-1" />
-                      <span className="text-gray-400">to</span>
-                      <input type="time" value={slot.end} onChange={(e) => updateSlot(i, 'end', e.target.value)} className="input-field flex-1" />
+                      <input
+                        type="time"
+                        value={slot.start}
+                        onChange={(e) => updateSlot(i, 'start', e.target.value)}
+                        className="input-field flex-1"
+                      />
+                      <span className="text-gray-400 text-sm">→</span>
+                      <input
+                        type="time"
+                        value={slot.end}
+                        onChange={(e) => updateSlot(i, 'end', e.target.value)}
+                        className="input-field flex-1"
+                      />
                       {form.timeSlots.length > 1 && (
-                        <button type="button" onClick={() => removeSlot(i)} className="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-xl">
+                        <button
+                          type="button"
+                          onClick={() => removeSlot(i)}
+                          className="p-2 text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-xl transition-colors"
+                        >
                           <HiOutlineTrash className="w-4 h-4" />
                         </button>
                       )}
@@ -159,8 +228,16 @@ const ManageAmenitiesPage = () => {
                 </div>
               </div>
               <div className="flex gap-3 pt-2">
-                <button type="button" onClick={() => { setShowModal(false); resetForm(); }} className="btn-secondary flex-1">Cancel</button>
-                <button type="submit" disabled={loading} className="btn-primary flex-1">{loading ? 'Saving...' : 'Save'}</button>
+                <button
+                  type="button"
+                  onClick={() => { setShowModal(false); resetForm(); }}
+                  className="btn-secondary flex-1 text-sm py-2.5"
+                >
+                  Cancel
+                </button>
+                <button type="submit" disabled={loading} className="btn-primary flex-1 text-sm py-2.5">
+                  {loading ? 'Saving...' : 'Save Amenity'}
+                </button>
               </div>
             </form>
           </div>
