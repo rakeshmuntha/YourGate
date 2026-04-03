@@ -43,7 +43,7 @@ const AccessCodesPage = () => {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-black text-[#141414] dark:text-[#EEEEEE] tracking-tight">Access Codes</h1>
+          <h1 className="text-4xl font-bold text-[#141414] dark:text-[#EEEEEE] tracking-tight">Access Codes</h1>
           <p className="text-[#8A8A8A] dark:text-[#616161] mt-1 text-sm">Generate & manage visitor access codes</p>
         </div>
         <button onClick={() => setShowModal(true)} className="btn-primary flex items-center gap-2 text-sm">

@@ -138,7 +138,7 @@ const CommunityBoardPage = () => {
       {/* Header */}
       <div className="mb-8 flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-[#141414] dark:text-[#EEEEEE] tracking-tight">
+          <h1 className="text-4xl font-bold text-[#141414] dark:text-[#EEEEEE] tracking-tight">
             Community Board
           </h1>
           <p className="text-[#8A8A8A] dark:text-[#616161] mt-1 text-sm">

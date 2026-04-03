@@ -19,7 +19,7 @@ const AdminVisitorLogs = () => {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-3xl font-black text-[#141414] dark:text-[#EEEEEE] tracking-tight">Visitor Logs</h1>
+        <h1 className="text-4xl font-bold text-[#141414] dark:text-[#EEEEEE] tracking-tight">Visitor Logs</h1>
         <p className="text-[#8A8A8A] dark:text-[#616161] mt-1 text-sm">All visitor activity in your community</p>
       </div>
 

@@ -74,7 +74,7 @@ const DashboardLayout = () => {
             {/* Gate logo mark */}
               <GateIcon className="w-4.5 h-4.5 text-white dark:text-[#141414]" />
             <div>
-              <span className="text-[15px] font-black text-[#141414] dark:text-[#EEEEEE] tracking-[-0.02em] leading-none">
+              <span className="text-[20px] font-bold text-[#141414] dark:text-[#EEEEEE] tracking-[-0.02em] leading-none">
                 YourGate
               </span>
               <p className="text-[9px] font-semibold text-[#ADADAD] dark:text-[#616161] uppercase tracking-[0.1em] mt-0.5">

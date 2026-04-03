@@ -49,7 +49,7 @@ const ManageUsersPage = () => {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-3xl font-black text-[#141414] dark:text-[#EEEEEE] tracking-tight">Manage Users</h1>
+        <h1 className="text-4xl font-bold text-[#141414] dark:text-[#EEEEEE] tracking-tight">Manage Users</h1>
         <p className="text-[#8A8A8A] dark:text-[#616161] mt-1 text-sm">Approve or reject community members</p>
       </div>
 

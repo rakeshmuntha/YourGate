@@ -18,7 +18,7 @@ const SuperAdminDashboard = () => {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-3xl font-black text-[#141414] dark:text-[#EEEEEE] tracking-[-0.025em]">Platform Overview</h1>
+        <h1 className="text-4xl font-bold text-[#141414] dark:text-[#EEEEEE] tracking-[-0.025em]">Platform Overview</h1>
         <p className="text-[#8A8A8A] dark:text-[#616161] mt-1 text-sm">Manage all YourGate communities</p>
       </div>
 
