@@ -178,7 +178,7 @@
            bg-white dark:bg-[#141414]
            text-[#141414] dark:text-[#EEEEEE]
            text-sm tracking-[-0.006em]
-           focus:ring-2 focus:ring-[#141414] dark:focus:ring-white
+            focus:ring-[#141414] dark:focus:ring-white
            focus:border-transparent
            outline-none
            transition-all duration-175

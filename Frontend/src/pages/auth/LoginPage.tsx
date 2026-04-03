@@ -169,7 +169,7 @@ const LoginPage = () => {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     className="input-field"
-                                    placeholder="you@example.com"
+                                    placeholder="you@community.com"
                                     autoComplete="email"
                                     required
                                 />
@@ -180,12 +180,12 @@ const LoginPage = () => {
                                     Password
                                 </label>
                                 <div className="relative">
-                                    <input
+                                    <input style={{fontSize: "1.2rem", letterSpacing: "0.1em"}}
                                         type={showPassword ? 'text' : 'password'}
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         className="input-field pr-12"
-                                        placeholder="••••••••"
+                                        placeholder="••••••••••"
                                         autoComplete="current-password"
                                         required
                                     />
@@ -223,7 +223,7 @@ const LoginPage = () => {
                         {/* Footer links */}
                         <div className="mt-8 space-y-2.5 text-center">
                             <p className="text-sm text-[#8A8A8A] dark:text-[#616161]">
-                                No account?{' '}
+                                No account? &nbsp;
                                 <Link
                                     to="/register"
                                     className="text-[#141414] dark:text-white font-semibold hover:underline underline-offset-2"
@@ -232,7 +232,7 @@ const LoginPage = () => {
                                 </Link>
                             </p>
                             <p className="text-sm text-[#8A8A8A] dark:text-[#616161]">
-                                New community?{' '}
+                                New community? &nbsp;
                                 <Link
                                     to="/register-community"
                                     className="text-[#141414] dark:text-white font-semibold hover:underline underline-offset-2"

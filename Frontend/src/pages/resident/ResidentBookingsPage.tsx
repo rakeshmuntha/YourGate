@@ -129,14 +129,17 @@ const ResidentBookingsPage = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-[#545454] dark:text-[#9E9E9E] mb-2">Date</label>
-                  <input
-                    type="date"
-                    value={form.date}
-                    min={new Date().toISOString().split('T')[0]}
-                    onChange={(e) => setForm({ ...form, date: e.target.value, slotTime: '' })}
-                    className="input-field"
-                    required
-                  />
+                  <div className="relative">
+                    <input
+                      type="date"
+                      value={form.date}
+                      min={new Date().toISOString().split('T')[0]}
+                      onChange={(e) => setForm({ ...form, date: e.target.value, slotTime: '' })}
+                      className="input-field pr-11 [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                      required
+                    />
+                    <CalendarDays className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-black dark:text-white" />
+                  </div>
                 </div>
               </div>
 
