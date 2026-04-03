@@ -131,7 +131,7 @@ const LoginPage = () => {
             {/* ── Right: Login form ── */}
             <div className="flex-1 flex flex-col bg-white dark:bg-[#000000]">
                 {/* Top bar */}
-                <div className="flex items-center justify-between px-6 py-5 lg:justify-end">
+                <div className="flex items-center justify-between px-6 py-5 lg:justify-end" style={{ paddingTop: 'calc(1.25rem + env(safe-area-inset-top))' }}>
                     <div className="flex items-center gap-2.5 lg:hidden">
                         <GateLogo size={32} dark={false} />
                         <span className="text-[16px] font-black text-[#141414] dark:text-white tracking-[-0.02em]">

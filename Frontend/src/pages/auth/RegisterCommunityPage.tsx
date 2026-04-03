@@ -54,7 +54,7 @@ const RegisterCommunityPage = () => {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#000000] px-4 py-12">
+        <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#000000] px-4 py-12" style={{ paddingTop: 'calc(3rem + env(safe-area-inset-top))' }}>
             <div className="w-full max-w-lg">
                 <div className="flex justify-between items-center mb-8">
                     <div className="flex items-center gap-2.5">

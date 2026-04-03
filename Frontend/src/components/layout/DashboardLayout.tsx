@@ -69,7 +69,7 @@ const DashboardLayout = () => {
         }`}
       >
         {/* Logo area */}
-        <div className="flex items-center justify-between px-5 h-16 border-b border-[#E2E2E2] dark:border-[#242424] flex-shrink-0">
+        <div className="flex items-center justify-between px-5 border-b border-[#E2E2E2] dark:border-[#242424] flex-shrink-0" style={{ paddingTop: 'env(safe-area-inset-top)', minHeight: 'calc(4rem + env(safe-area-inset-top))' }}>
           <div className="flex items-center gap-2.5">
             {/* Gate logo mark */}
               <GateIcon className="w-4.5 h-4.5 text-white dark:text-[#141414]" />
@@ -135,7 +135,7 @@ const DashboardLayout = () => {
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}
-        <header className="sticky top-0 z-30 h-16 bg-white/90 dark:bg-[#000000]/90 backdrop-blur-xl border-b border-[#E2E2E2] dark:border-[#242424] flex items-center px-4 lg:px-6 justify-between">
+        <header className="sticky top-0 z-30 bg-white/90 dark:bg-[#000000]/90 backdrop-blur-xl border-b border-[#E2E2E2] dark:border-[#242424] flex items-center px-4 lg:px-6 justify-between" style={{ paddingTop: 'env(safe-area-inset-top)', minHeight: 'calc(4rem + env(safe-area-inset-top))' }}>
           <button
             onClick={() => setSidebarOpen(true)}
             className="lg:hidden p-2 rounded-xl hover:bg-[#F6F6F6] dark:hover:bg-[#1C1C1C] text-[#545454] dark:text-[#9E9E9E] transition-colors"
