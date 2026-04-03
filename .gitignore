@@ -5,3 +5,4 @@ Backend/.env
 Backend/dist
 Backend/.env.example
 Frontend/.env.example
+DEPLOYMENT.md
