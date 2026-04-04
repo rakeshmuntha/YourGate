@@ -10,9 +10,8 @@ const getInitialTheme = (): Theme => {
   if (typeof window !== 'undefined') {
     const saved = localStorage.getItem('yourgate-theme') as Theme;
     if (saved) return saved;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
-  return 'light';
+  return 'dark';
 };
 
 const initialState: ThemeState = {

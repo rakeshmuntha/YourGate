@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Plus, QrCode } from 'lucide-react';
+import { Plus, QrCode, Copy, Share2 } from 'lucide-react';
 import QRCode from 'qrcode';
 import { accessCodeAPI } from '../../services/api';
 import { AccessCode } from '../../types';
@@ -39,6 +39,40 @@ const AccessCodesPage = () => {
     setQrModal({ code, qrUrl });
   };
 
+  const copyCode = (code: string) => {
+    navigator.clipboard.writeText(code);
+    toast.success('Code copied!');
+  };
+
+  const shareQR = async (code: string, qrUrl: string) => {
+    const shareData: ShareData = {
+      title: 'YourGate Access Code',
+      text: `Here's your visitor access code: ${code}`,
+    };
+
+    // Try to share the QR image if Web Share API level 2 is supported
+    try {
+      const blob = await (await fetch(qrUrl)).blob();
+      const file = new File([blob], `access-code-${code}.png`, { type: 'image/png' });
+      if (navigator.canShare?.({ files: [file] })) {
+        shareData.files = [file];
+      }
+    } catch {
+      // Fallback to text-only share
+    }
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err: any) {
+        if (err.name !== 'AbortError') toast.error('Share failed');
+      }
+    } else {
+      navigator.clipboard.writeText(`YourGate Access Code: ${code}`);
+      toast.success('Link copied to clipboard!');
+    }
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
@@ -60,6 +94,22 @@ const AccessCodesPage = () => {
               <span className={code.status === 'ACTIVE' ? 'badge-approved' : 'badge-expired'}>{code.status}</span>
             </div>
             <p className="text-2xl font-mono font-black tracking-[0.25em] text-center my-5 text-[#141414] dark:text-[#EEEEEE]">{code.code}</p>
+            <div className="flex gap-2 mb-5">
+              <button
+                onClick={() => copyCode(code.code)}
+                className="btn-secondary flex-1 flex items-center justify-center gap-2 text-sm py-2.5"
+              >
+                <Copy className="w-4 h-4" /> Copy Code
+              </button>
+              {code.status === 'ACTIVE' && (
+                <button
+                  onClick={() => showQR(code.code)}
+                  className="btn-secondary flex-1 flex items-center justify-center gap-2 text-sm py-2.5"
+                >
+                  <QrCode className="w-4 h-4" /> Show QR
+                </button>
+              )}
+            </div>
             <div className="space-y-2.5 text-xs mb-5">
               <div className="flex justify-between">
                 <span className="text-[#8A8A8A] dark:text-[#616161]">Usage</span>
@@ -70,14 +120,6 @@ const AccessCodesPage = () => {
                 <span className="font-medium text-[#545454] dark:text-[#616161] text-right max-w-[150px] truncate">{new Date(code.expiresAt).toLocaleString()}</span>
               </div>
             </div>
-            {code.status === 'ACTIVE' && (
-              <button
-                onClick={() => showQR(code.code)}
-                className="btn-secondary w-full flex items-center justify-center gap-2 text-sm py-2.5"
-              >
-                <QrCode className="w-4 h-4" /> Show QR Code
-              </button>
-            )}
           </div>
         ))}
       </div>
@@ -161,7 +203,15 @@ const AccessCodesPage = () => {
               <img src={qrModal.qrUrl} alt="QR Code" className="w-56 h-56 rounded-xl" />
             </div>
             <p className="text-xs text-[#8A8A8A] dark:text-[#616161] mb-5">Show this to the security guard at the gate</p>
-            <button onClick={() => setQrModal(null)} className="btn-secondary w-full text-sm py-2.5">Close</button>
+            <div className="flex gap-3">
+              <button onClick={() => setQrModal(null)} className="btn-secondary flex-1 text-sm py-2.5">Close</button>
+              <button
+                onClick={() => shareQR(qrModal.code, qrModal.qrUrl)}
+                className="btn-primary flex-1 flex items-center justify-center gap-2 text-sm py-2.5"
+              >
+                <Share2 className="w-4 h-4" /> Share
+              </button>
+            </div>
           </div>
         </div>
       )}

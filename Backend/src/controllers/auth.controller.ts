@@ -49,4 +49,13 @@ export class AuthController {
       res.status(error.statusCode || 500).json({ message: error.message });
     }
   }
+
+  async updateProfile(req: AuthRequest, res: Response): Promise<void> {
+    try {
+      const user = await authService.updateProfile(req.user!.userId, req.body);
+      res.json({ message: 'Profile updated', user });
+    } catch (error: any) {
+      res.status(error.statusCode || 500).json({ message: error.message });
+    }
+  }
 }

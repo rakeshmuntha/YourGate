@@ -12,10 +12,34 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
       <BrowserRouter>
         <Toaster
-          position="top-right"
+          position="top-center"
+          containerStyle={{ top: 'calc(env(safe-area-inset-top, 0px) + 12px)' }}
           toastOptions={{
-            className: 'dark:bg-gray-800 dark:text-gray-100',
             duration: 3000,
+            style: {
+              background: '#141414',
+              color: '#EEEEEE',
+              borderRadius: '100px',
+              padding: '12px 20px',
+              fontSize: '14px',
+              fontWeight: 500,
+              boxShadow: '0 8px 32px rgba(0,0,0,0.32), 0 2px 8px rgba(0,0,0,0.16)',
+              border: '1px solid rgba(255,255,255,0.06)',
+              backdropFilter: 'blur(16px)',
+              maxWidth: '380px',
+            },
+            success: {
+              iconTheme: {
+                primary: '#06C167',
+                secondary: '#141414',
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: '#F44336',
+                secondary: '#141414',
+              },
+            },
           }}
         />
         <App />

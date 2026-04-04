@@ -22,6 +22,14 @@ export const setTokenCookies = (res: Response, accessToken: string, refreshToken
 };
 
 export const clearTokenCookies = (res: Response): void => {
-  res.cookie('accessToken', '', { httpOnly: true, expires: new Date(0), path: '/' });
-  res.cookie('refreshToken', '', { httpOnly: true, expires: new Date(0), path: '/' });
+  const isProduction = env.NODE_ENV === 'production';
+  const opts = {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: (isProduction ? 'none' : 'lax') as 'none' | 'lax',
+    path: '/',
+    expires: new Date(0),
+  };
+  res.cookie('accessToken', '', opts);
+  res.cookie('refreshToken', '', opts);
 };

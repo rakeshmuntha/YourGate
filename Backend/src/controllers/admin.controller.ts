@@ -40,4 +40,16 @@ export class AdminController {
       res.status(error.statusCode || 500).json({ message: error.message });
     }
   }
+
+  async addFaculty(req: AuthRequest, res: Response): Promise<void> {
+    try {
+      const user = await adminService.addFaculty({
+        ...req.body,
+        communityId: req.user!.communityId!,
+      });
+      res.status(201).json({ message: 'Faculty member added successfully', user });
+    } catch (error: any) {
+      res.status(error.statusCode || 500).json({ message: error.message });
+    }
+  }
 }

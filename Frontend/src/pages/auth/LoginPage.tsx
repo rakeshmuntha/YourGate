@@ -4,51 +4,9 @@ import { Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { loginUser } from '../../store/slices/authSlice';
 import ThemeToggle from '../../components/common/ThemeToggle';
+import GateLogo from '../../components/common/GateLogo';
 import toast from 'react-hot-toast';
 import { Role } from '../../types';
-
-// Inline gate SVG logo for the branding panel
-const GateLogo = ({ size = 40, dark = false }: { size?: number; dark?: boolean }) => (
-        <svg
-            width={size}
-            height={size}
-            viewBox="0 0 24 24"
-            fill="none"
-        >
-            {/* Background (like first SVG) */}
-            <rect
-                width="24"
-                height="24"
-                rx="6"
-                fill={dark ? "#FFFFFF" : "#141414"}
-            />
-
-            {/* Door outline */}
-            <path
-                d="M18 20V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14"
-                stroke={dark ? "#141414" : "white"}
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            />
-
-            {/* Bottom line */}
-            <path
-                d="M2 20h20"
-                stroke={dark ? "#141414" : "white"}
-                strokeWidth="2"
-                strokeLinecap="round"
-            />
-
-            {/* Door handle */}
-            <circle
-                cx="10"
-                cy="12"
-                r="1"
-                fill={dark ? "#141414" : "white"}
-            />
-        </svg>
-);
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -180,7 +138,7 @@ const LoginPage = () => {
                                     Password
                                 </label>
                                 <div className="relative">
-                                    <input style={{fontSize: "1.2rem", letterSpacing: "0.1em"}}
+                                    <input
                                         type={showPassword ? 'text' : 'password'}
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}

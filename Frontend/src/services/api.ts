@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+    baseURL: import.meta.env.VITE_API_URL || '/api',
     withCredentials: true,
     headers: { 'Content-Type': 'application/json' },
 });
@@ -12,6 +12,7 @@ export const authAPI = {
     register: (data: any) => api.post('/auth/register', data),
     logout: () => api.post('/auth/logout'),
     getMe: () => api.get('/auth/me'),
+    updateProfile: (data: { name?: string; flatNumber?: string }) => api.patch('/auth/profile', data),
 };
 
 // Community
@@ -29,6 +30,8 @@ export const adminAPI = {
     approveUser: (id: string) => api.patch(`/admin/approve-user/${id}`),
     rejectUser: (id: string) => api.patch(`/admin/reject-user/${id}`),
     getUsers: () => api.get('/admin/users'),
+    addFaculty: (data: { name: string; email: string; role: string }) =>
+        api.post('/admin/faculty', data),
 };
 
 // Access Code

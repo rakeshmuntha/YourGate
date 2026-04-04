@@ -12,5 +12,6 @@ router.get('/pending-users', (req, res) => controller.getPendingUsers(req, res))
 router.patch('/approve-user/:id', (req, res) => controller.approveUser(req, res));
 router.patch('/reject-user/:id', (req, res) => controller.rejectUser(req, res));
 router.get('/users', (req, res) => controller.getCommunityUsers(req, res));
+router.post('/faculty', (req, res) => controller.addFaculty(req, res));
 
 export default router;

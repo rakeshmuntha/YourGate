@@ -1,13 +1,24 @@
 import { useEffect, useState, useCallback } from 'react';
 import { adminAPI } from '../../services/api';
 import { User } from '../../types';
-import { CheckCircle, XCircle, Users } from 'lucide-react';
+import { CheckCircle, XCircle, Users, Plus } from 'lucide-react';
 import toast from 'react-hot-toast';
+
+const FACULTY_ROLES = [
+  { value: 'SECURITY', label: 'Security' },
+  { value: 'CLEANER', label: 'Cleaner' },
+  { value: 'MAINTENANCE', label: 'Maintenance' },
+  { value: 'GARDENER', label: 'Gardener' },
+  { value: 'OTHER', label: 'Other' },
+];
 
 const ManageUsersPage = () => {
   const [pending, setPending] = useState<User[]>([]);
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [tab, setTab] = useState<'pending' | 'all'>('pending');
+  const [showFacultyModal, setShowFacultyModal] = useState(false);
+  const [facultyForm, setFacultyForm] = useState({ name: '', email: '', role: 'SECURITY' });
+  const [facultyLoading, setFacultyLoading] = useState(false);
 
   const loadData = useCallback(async () => {
     const [p, a] = await Promise.all([adminAPI.getPendingUsers(), adminAPI.getUsers()]);
@@ -37,6 +48,26 @@ const ManageUsersPage = () => {
     }
   };
 
+  const handleAddFaculty = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFacultyLoading(true);
+    try {
+      await adminAPI.addFaculty(facultyForm);
+      toast.success(
+        facultyForm.role === 'SECURITY'
+          ? 'Security account created! Default password: password123'
+          : 'Faculty member added!'
+      );
+      setShowFacultyModal(false);
+      setFacultyForm({ name: '', email: '', role: 'SECURITY' });
+      loadData();
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || 'Failed to add');
+    } finally {
+      setFacultyLoading(false);
+    }
+  };
+
   const statusBadge = (status: string) => {
     const map: Record<string, string> = {
       PENDING: 'badge-pending',
@@ -48,9 +79,14 @@ const ManageUsersPage = () => {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-[#141414] dark:text-[#EEEEEE] tracking-tight">Manage Users</h1>
-        <p className="text-[#8A8A8A] dark:text-[#616161] mt-1 text-sm">Approve or reject community members</p>
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-4xl font-bold text-[#141414] dark:text-[#EEEEEE] tracking-tight">Manage Users</h1>
+          <p className="text-[#8A8A8A] dark:text-[#616161] mt-1 text-sm">Approve or reject community members</p>
+        </div>
+        <button onClick={() => setShowFacultyModal(true)} className="btn-primary flex items-center gap-2 text-sm">
+          <Plus className="w-4 h-4" /> Add Faculty
+        </button>
       </div>
 
       {/* Tabs */}
@@ -146,6 +182,63 @@ const ManageUsersPage = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* Add Faculty Modal */}
+      {showFacultyModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+          <div className="bg-white dark:bg-[#141414] border border-[#E2E2E2] dark:border-[#242424] rounded-3xl w-full max-w-sm p-7 shadow-2xl">
+            <h3 className="text-xl font-black text-[#141414] dark:text-[#EEEEEE] mb-1">Add Faculty</h3>
+            <p className="text-xs text-[#8A8A8A] dark:text-[#616161] mb-6">Security accounts are auto-created with default password</p>
+            <form onSubmit={handleAddFaculty} className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-[#545454] dark:text-[#9E9E9E] mb-2">Full Name</label>
+                <input
+                  type="text"
+                  value={facultyForm.name}
+                  onChange={(e) => setFacultyForm({ ...facultyForm, name: e.target.value })}
+                  className="input-field"
+                  placeholder="John Doe"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-[#545454] dark:text-[#9E9E9E] mb-2">Email</label>
+                <input
+                  type="email"
+                  value={facultyForm.email}
+                  onChange={(e) => setFacultyForm({ ...facultyForm, email: e.target.value })}
+                  className="input-field"
+                  placeholder="john@example.com"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-[#545454] dark:text-[#9E9E9E] mb-2">Role</label>
+                <select
+                  value={facultyForm.role}
+                  onChange={(e) => setFacultyForm({ ...facultyForm, role: e.target.value })}
+                  className="input-field"
+                >
+                  {FACULTY_ROLES.map((r) => (
+                    <option key={r.value} value={r.value}>{r.label}</option>
+                  ))}
+                </select>
+              </div>
+              {facultyForm.role === 'SECURITY' && (
+                <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/20 px-3 py-2 rounded-xl">
+                  A security account will be created with default password <span className="font-mono font-bold">password123</span>
+                </p>
+              )}
+              <div className="flex gap-3 pt-2">
+                <button type="button" onClick={() => setShowFacultyModal(false)} className="btn-secondary flex-1 text-sm py-2.5">Cancel</button>
+                <button type="submit" disabled={facultyLoading} className="btn-primary flex-1 text-sm py-2.5">
+                  {facultyLoading ? 'Adding...' : 'Add Faculty'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

@@ -34,6 +34,7 @@ import AdminVisitorLogs from './pages/admin/AdminVisitorLogs';
 
 // Shared pages
 import CommunityBoardPage from './pages/shared/CommunityBoardPage';
+import ProfilePage from './pages/shared/ProfilePage';
 
 // Super Admin pages
 import SuperAdminDashboard from './pages/superadmin/SuperAdminDashboard';
@@ -100,6 +101,7 @@ const App = () => {
                 <Route path="/resident/amenities" element={<ResidentAmenitiesPage />} />
                 <Route path="/resident/bookings" element={<ResidentBookingsPage />} />
                 <Route path="/resident/community-board" element={<CommunityBoardPage />} />
+                <Route path="/resident/profile" element={<ProfilePage />} />
             </Route>
 
             {/* Security routes */}
@@ -113,6 +115,7 @@ const App = () => {
                 <Route path="/security" element={<SecurityDashboard />} />
                 <Route path="/security/verify" element={<VerifyCodePage />} />
                 <Route path="/security/visitors" element={<SecurityVisitorLogs />} />
+                <Route path="/security/profile" element={<ProfilePage />} />
             </Route>
 
             {/* Admin routes */}
@@ -129,6 +132,7 @@ const App = () => {
                 <Route path="/admin/bookings" element={<AdminBookingsPage />} />
                 <Route path="/admin/visitors" element={<AdminVisitorLogs />} />
                 <Route path="/admin/community-board" element={<CommunityBoardPage />} />
+                <Route path="/admin/profile" element={<ProfilePage />} />
             </Route>
 
             {/* Super Admin routes */}
@@ -141,6 +145,7 @@ const App = () => {
             >
                 <Route path="/super-admin" element={<SuperAdminDashboard />} />
                 <Route path="/super-admin/communities" element={<CommunitiesPage />} />
+                <Route path="/super-admin/profile" element={<ProfilePage />} />
             </Route>
 
             {/* Redirects */}

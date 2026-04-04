@@ -83,4 +83,17 @@ export class AuthService {
     if (!user) throw new AppError('User not found', 404);
     return user;
   }
+
+  async updateProfile(userId: string, data: { name?: string; flatNumber?: string }) {
+    const user = await User.findById(userId);
+    if (!user) throw new AppError('User not found', 404);
+
+    if (data.name) user.name = data.name;
+    if (data.flatNumber !== undefined) user.flatNumber = data.flatNumber;
+
+    await user.save();
+
+    const updated = await User.findById(userId).select('-password -refreshToken').populate('communityId', 'communityName');
+    return updated;
+  }
 }
