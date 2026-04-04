@@ -40,26 +40,19 @@ export class AdminService {
     const existing = await User.findOne({ email: data.email });
     if (existing) throw new AppError('Email already registered', 400);
 
-    const validRoles = [Role.SECURITY, 'CLEANER', 'MAINTENANCE', 'GARDENER', 'OTHER'];
-    if (!validRoles.includes(data.role as any)) throw new AppError('Invalid faculty role', 400);
+    const validRoles = ['SECURITY', 'CLEANER', 'MAINTENANCE', 'GARDENER', 'ELECTRICIAN', 'PLUMBER', 'WATCHMAN', 'COOK', 'DRIVER', 'OTHER'];
+    if (!validRoles.includes(data.role)) throw new AppError('Invalid worker role', 400);
 
-    const userData: any = {
+    const hashedPassword = await bcrypt.hash('password123', 12);
+
+    const user = await User.create({
       name: data.name,
       email: data.email,
-      role: data.role === Role.SECURITY ? Role.SECURITY : Role.RESIDENT,
+      role: data.role === 'SECURITY' ? Role.SECURITY : Role.RESIDENT,
       communityId: data.communityId,
       status: UserStatus.APPROVED,
-      facultyRole: data.role !== Role.SECURITY ? data.role : undefined,
-    };
-
-    // Security accounts are auto-created with a default password
-    if (data.role === Role.SECURITY) {
-      userData.password = await bcrypt.hash('password123', 12);
-    } else {
-      userData.password = await bcrypt.hash('password123', 12);
-    }
-
-    const user = await User.create(userData);
+      password: hashedPassword,
+    });
 
     return {
       id: user._id,

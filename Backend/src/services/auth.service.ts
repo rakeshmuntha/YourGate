@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { User } from '../models/User';
 import { Role, UserStatus, TokenPayload } from '../types';
-import { generateAccessToken, generateRefreshToken } from '../utils/token';
+import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../utils/token';
 import { AppError } from '../utils/errors';
 
 export class AuthService {
@@ -76,6 +76,29 @@ export class AuthService {
 
   async logout(userId: string) {
     await User.findByIdAndUpdate(userId, { refreshToken: undefined });
+  }
+
+  async refresh(refreshToken: string) {
+    const decoded = verifyRefreshToken(refreshToken);
+    const user = await User.findById(decoded.userId);
+
+    if (!user || user.refreshToken !== refreshToken) {
+      throw new AppError('Invalid refresh token', 401);
+    }
+
+    const payload: TokenPayload = {
+      userId: (user._id as unknown as string),
+      role: user.role,
+      communityId: user.communityId?.toString(),
+    };
+
+    const newAccessToken = generateAccessToken(payload);
+    const newRefreshToken = generateRefreshToken(payload);
+
+    user.refreshToken = newRefreshToken;
+    await user.save();
+
+    return { accessToken: newAccessToken, refreshToken: newRefreshToken };
   }
 
   async getMe(userId: string) {

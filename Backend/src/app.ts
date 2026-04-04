@@ -16,8 +16,16 @@ import postRoutes from './routes/post.routes';
 const app = express();
 
 // Middleware
+const allowedOrigins = env.CLIENT_URL.split(',').map(s => s.trim());
 app.use(cors({
-  origin: env.CLIENT_URL,
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, Postman, server-to-server like Vercel proxy)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Allow all in production since we use Bearer tokens
+    }
+  },
   credentials: true,
 }));
 app.use(express.json());

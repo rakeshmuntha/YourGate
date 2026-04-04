@@ -24,8 +24,8 @@ export const communityRegisterSchema = z.object({
 
 export const generateCodeSchema = z.object({
   type: z.enum(['DELIVERY', 'GUEST']),
-  expiresInHours: z.number().min(1).max(72).default(24),
-  usageLimit: z.number().min(1).max(10).default(1),
+  expiresInHours: z.coerce.number().min(1).max(72).default(24),
+  usageLimit: z.coerce.number().min(1).max(10).default(1),
 });
 
 export const validateCodeSchema = z.object({
@@ -44,12 +44,12 @@ export const visitorExitSchema = z.object({
 export const createAmenitySchema = z.object({
   name: z.string().min(2, 'Amenity name is required'),
   description: z.string().min(5, 'Description is required'),
-  bookingLimitPerUser: z.number().min(1).max(10).default(2),
+  bookingLimitPerUser: z.coerce.number().min(1).max(10).default(2),
   timeSlots: z
     .array(
       z.object({
-        start: z.string(),
-        end: z.string(),
+        start: z.string().min(1, 'Start time is required'),
+        end: z.string().min(1, 'End time is required'),
       })
     )
     .min(1, 'At least one time slot is required'),

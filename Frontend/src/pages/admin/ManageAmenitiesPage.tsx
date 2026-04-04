@@ -206,14 +206,14 @@ const ManageAmenitiesPage = () => {
                         type="time"
                         value={slot.start}
                         onChange={(e) => updateSlot(i, 'start', e.target.value)}
-                        className="input-field flex-1"
+                        className="input-field flex-1 dark:[color-scheme:dark]"
                       />
-                      <span className="text-[#8A8A8A] dark:text-[#616161] text-sm">→</span>
+                      <span className="text-[#141414] dark:text-white text-sm">→</span>
                       <input
                         type="time"
                         value={slot.end}
                         onChange={(e) => updateSlot(i, 'end', e.target.value)}
-                        className="input-field flex-1"
+                        className="input-field flex-1 dark:[color-scheme:dark]"
                       />
                       {form.timeSlots.length > 1 && (
                         <button

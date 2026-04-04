@@ -23,9 +23,32 @@ export class AuthController {
       const { email, password } = req.body;
       const result = await authService.login(email, password);
       setTokenCookies(res, result.accessToken, result.refreshToken);
-      res.json({ message: 'Login successful', user: result.user });
+      res.json({
+        message: 'Login successful',
+        user: result.user,
+        accessToken: result.accessToken,
+        refreshToken: result.refreshToken,
+      });
     } catch (error: any) {
       res.status(error.statusCode || 500).json({ message: error.message });
+    }
+  }
+
+  async refreshToken(req: Request, res: Response): Promise<void> {
+    try {
+      const { refreshToken } = req.body;
+      if (!refreshToken) {
+        res.status(400).json({ message: 'Refresh token is required' });
+        return;
+      }
+      const result = await authService.refresh(refreshToken);
+      setTokenCookies(res, result.accessToken, result.refreshToken);
+      res.json({
+        accessToken: result.accessToken,
+        refreshToken: result.refreshToken,
+      });
+    } catch (error: any) {
+      res.status(error.statusCode || 401).json({ message: error.message });
     }
   }
 

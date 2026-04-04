@@ -6,7 +6,12 @@ import { User } from '../models/User';
 
 export const isAuthenticated = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
-        const accessToken = req.cookies?.accessToken;
+        // 1. Check Authorization header first (mobile PWA / proxy-friendly)
+        const authHeader = req.headers.authorization;
+        const bearerToken = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
+
+        // 2. Fall back to cookies
+        const accessToken = bearerToken || req.cookies?.accessToken;
         const refreshToken = req.cookies?.refreshToken;
 
         if (accessToken) {
@@ -15,7 +20,7 @@ export const isAuthenticated = async (req: AuthRequest, res: Response, next: Nex
                 req.user = decoded;
                 return next();
             } catch {
-                // Access token expired, try refresh
+                // Access token expired, try refresh via cookie
             }
         }
 

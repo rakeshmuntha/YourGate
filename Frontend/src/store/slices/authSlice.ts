@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { authAPI } from '../../services/api';
+import { authAPI, tokenStore } from '../../services/api';
 import { User } from '../../types';
 
 interface AuthState {
@@ -21,6 +21,10 @@ export const loginUser = createAsyncThunk(
     async (data: { email: string; password: string }, { rejectWithValue }) => {
         try {
             const res = await authAPI.login(data);
+            // Store tokens for Authorization header (mobile PWA fallback)
+            if (res.data.accessToken && res.data.refreshToken) {
+                tokenStore.set(res.data.accessToken, res.data.refreshToken);
+            }
             return res.data.user;
         } catch (err: any) {
             return rejectWithValue(err.response?.data?.message || 'Login failed');
@@ -41,7 +45,11 @@ export const fetchCurrentUser = createAsyncThunk(
 );
 
 export const logoutUser = createAsyncThunk('auth/logout', async () => {
-    await authAPI.logout();
+    try {
+        await authAPI.logout();
+    } finally {
+        tokenStore.clear();
+    }
 });
 
 const authSlice = createSlice({

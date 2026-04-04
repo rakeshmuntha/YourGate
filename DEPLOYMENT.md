@@ -1,39 +1,50 @@
-# YourGate - Render Deployment Guide
+# YourGate - Deployment Guide
+
+## Architecture
+
+- **Frontend**: Vercel (React + Vite PWA)
+- **Backend**: Render (Node.js + Express)
+- **Database**: MongoDB Atlas
+- **Auth**: JWT Bearer tokens (localStorage) + cookie fallback
+- **API Routing**: Vercel rewrites proxy `/api/*` to Render backend (same-origin for mobile)
+
+---
 
 ## Environment Variables
 
-### **BACKEND Environment Variables**
+### **Backend (Render)**
 
-Set these in Render Dashboard → Service Settings → Environment:
+Set in Render Dashboard → Service → Environment:
 
 ```
 NODE_ENV=production
 PORT=5000
 
-# MongoDB Database URI
+# MongoDB
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/yourgate
 
-# JWT Secrets - Generate strong random strings!
-# Option 1: Use openssl: openssl rand -base64 32
-# Option 2: Generate online: https://www.allkeysgenerator.com/
+# JWT Secrets - NEVER use defaults in production!
+# Generate: openssl rand -base64 32
 ACCESS_TOKEN_SECRET=<generate-a-strong-random-string>
-REFRESH_TOKEN_SECRET=<generate-a-strong-random-string>
+REFRESH_TOKEN_SECRET=<generate-a-different-random-string>
 
-# Token Expiry (leave as default)
+# Token Expiry
 ACCESS_TOKEN_EXPIRY=15m
 REFRESH_TOKEN_EXPIRY=7d
 
-# Frontend URL - Important! Set to your frontend Render URL
-CLIENT_URL=https://your-frontend-name.onrender.com
+# Frontend URL (your Vercel domain)
+CLIENT_URL=https://yourgate.vercel.app
 ```
 
-### **FRONTEND Environment Variables**
+### **Frontend (Vercel)**
 
-Set these in Render Dashboard → Build Environment Variables:
+Set in Vercel Dashboard → Project → Settings → Environment Variables:
 
 ```
-VITE_API_URL=https://your-backend-name.onrender.com/api
+VITE_API_URL=/api
 ```
+
+> **Important:** Use `/api` (relative path), NOT an absolute URL. The Vercel rewrite in `vercel.json` proxies requests to the backend. This makes auth cookies/tokens work on mobile.
 
 ---
 
@@ -52,92 +63,119 @@ VITE_API_URL=https://your-backend-name.onrender.com/api
    - **Build Command:** `cd Backend && npm install`
    - **Start Command:** `cd Backend && npm start`
 
-5. **Add Environment Variables:** (from Backend section above)
-   - Click "Add Environment Variable"
-   - Add all variables from the Backend list
+5. **Add all Backend environment variables** from the list above
 
-6. Deploy and wait for success ✅
+6. Deploy and wait for success
 
-7. **Copy your backend URL** (e.g., `https://yourgate-backend.onrender.com`)
+7. **Copy your backend URL** (e.g., `https://yourgate.onrender.com`)
 
 ---
 
-### **2. Deploy Frontend to Render**
+### **2. Update `vercel.json`**
 
-1. Go to [render.com](https://render.com)
-2. Click "Create" → "Static Site"
-3. Connect your GitHub repository
-4. **Service Settings:**
-   - **Name:** yourgate-frontend
-   - **Branch:** master (or main)
-   - **Build Command:** `cd Frontend && npm install && npm run build`
-   - **Publish Directory:** `Frontend/dist`
+Make sure `vercel.json` has the correct backend URL:
 
-5. **Add Environment Variables:**
-   - Click "Build & Deploy" → "Environment"
-   - Add: `VITE_API_URL=https://yourgate-backend.onrender.com/api`
-   - (Replace with your actual backend URL from step 1.7)
+```json
+{
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://yourgate.onrender.com/api/:path*" },
+    { "source": "/(.*)", "destination": "/" }
+  ]
+}
+```
 
-6. Deploy and wait for success ✅
+Replace `yourgate.onrender.com` with your actual Render backend URL.
 
 ---
 
-### **3. Update Backend with Frontend URL**
+### **3. Deploy Frontend to Vercel**
 
-After frontend deployment, go back to backend service:
+1. Go to [vercel.com](https://vercel.com)
+2. Import your GitHub repository
+3. **Framework Preset:** Vite
+4. **Root Directory:** `Frontend`
+5. **Build Command:** `npm run build`
+6. **Output Directory:** `dist`
+7. **Add Environment Variable:** `VITE_API_URL` = `/api`
+8. Deploy
 
-1. Go to Backend service settings
-2. Edit **CLIENT_URL** environment variable
-3. Set it to: `https://yourgate-frontend.onrender.com`
-4. Save and it will auto-redeploy
+---
+
+### **4. Update Backend CLIENT_URL**
+
+After frontend deploys, go back to Render:
+
+1. Edit `CLIENT_URL` to your Vercel URL: `https://yourgate.vercel.app`
+2. Save — backend auto-redeploys
+
+---
+
+## Mobile PWA Support
+
+The app works as a PWA on both Android and iOS:
+
+- **Auth**: Uses Bearer tokens stored in `localStorage` (avoids cross-origin cookie issues on mobile)
+- **Token refresh**: Automatic — axios interceptor refreshes expired tokens silently
+- **Service worker**: Excludes `/api/` routes from navigation fallback
+- **iOS**: `apple-mobile-web-app-capable` + `apple-touch-icon` configured
+- **Android**: Web app manifest with standalone display mode
+- **Default theme**: Dark mode
+
+### Install as PWA
+- **Android Chrome**: Menu → "Add to Home Screen"
+- **iOS Safari**: Share → "Add to Home Screen"
 
 ---
 
 ## Important Notes
 
-⚠️ **MongoDB URI:**
+**MongoDB Atlas:**
 - Must be a valid MongoDB connection string
-- If using MongoDB Atlas, whitelist Render IP address: `0.0.0.0/0` (public access)
+- Whitelist IP: `0.0.0.0/0` (allow all) for Render's dynamic IPs
 
-⚠️ **JWT Secrets:**
-- Generate strong random strings - NEVER use defaults!
-- Command: `openssl rand -base64 32`
+**JWT Secrets:**
+- Generate strong random strings: `openssl rand -base64 32`
+- Use different strings for ACCESS and REFRESH secrets
 
-⚠️ **CORS Configuration:**
-- Backend allows requests only from `CLIENT_URL`
-- If frontend URL changes, update backend `CLIENT_URL` env var
+**CORS:**
+- Backend accepts requests from `CLIENT_URL` and requests with no origin (Vercel proxy)
+- Bearer token auth works regardless of CORS cookie restrictions
 
-⚠️ **Free Tier Limits:**
-- Render free tier services spin down after 15 min of inactivity
-- Use paid tier for production apps
-- Backend API calls will be slower on first request after spin-down
+**Free Tier:**
+- Render free tier spins down after 15 min idle — first request after sleep is slow
+- Use paid tier for production
 
 ---
 
 ## Troubleshooting
 
-### **Frontend can't connect to backend**
-- Check `VITE_API_URL` matches backend service URL
-- Check backend `CLIENT_URL` includes your frontend domain
-- Check browser console for CORS errors
+### Frontend can't connect to backend
+- Verify `vercel.json` has the correct Render backend URL
+- Check `VITE_API_URL` is set to `/api` (relative, not absolute)
+- Check Render backend is running: visit `https://yourgate.onrender.com/api/health`
 
-### **Login/cookies not working**
-- Backend has `withCredentials: true`
-- Ensure `credentials: true` in CORS config ✓
+### Login fails on mobile
+- Check `NODE_ENV=production` is set on backend
+- Verify the token interceptor is working — open browser DevTools → Application → Local Storage → look for `yourgate_access_token`
+- Clear the PWA cache: uninstall PWA, clear site data, reinstall
 
-### **Database connection fails**
+### CORS errors
+- Ensure `CLIENT_URL` on backend matches your Vercel domain exactly (no trailing slash)
+- Check browser console for the specific blocked origin
+
+### Database connection fails
 - Verify `MONGODB_URI` is correct
-- Check MongoDB Atlas IP whitelist
-- Make sure database exists
+- Check MongoDB Atlas Network Access → `0.0.0.0/0` is whitelisted
 
 ---
 
 ## Summary: Required Env Variables
 
-| Service | Variable | Example Value |
-|---------|----------|----------------|
-| **Backend** | MONGODB_URI | mongodb+srv://user:pass@cluster.mongodb.net/yourgate |
-| **Backend** | ACCESS_TOKEN_SECRET | (random 32 char string) |
-| **Backend** | REFRESH_TOKEN_SECRET | (random 32 char string) |
-| **Backend** | CLIENT_URL | https://yourgate-frontend.onrender.com |
-| **Frontend** | VITE_API_URL | https://yourgate-backend.onrender.com/api |
+| Service | Variable | Value |
+|---------|----------|-------|
+| **Backend** | `NODE_ENV` | `production` |
+| **Backend** | `MONGODB_URI` | `mongodb+srv://user:pass@cluster.mongodb.net/yourgate` |
+| **Backend** | `ACCESS_TOKEN_SECRET` | (random 32+ char string) |
+| **Backend** | `REFRESH_TOKEN_SECRET` | (different random 32+ char string) |
+| **Backend** | `CLIENT_URL` | `https://yourgate.vercel.app` |
+| **Frontend** | `VITE_API_URL` | `/api` |

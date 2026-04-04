@@ -5,10 +5,15 @@ import { CheckCircle, XCircle, Users, Plus } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const FACULTY_ROLES = [
-  { value: 'SECURITY', label: 'Security' },
+  { value: 'SECURITY', label: 'Security Guard' },
   { value: 'CLEANER', label: 'Cleaner' },
   { value: 'MAINTENANCE', label: 'Maintenance' },
   { value: 'GARDENER', label: 'Gardener' },
+  { value: 'ELECTRICIAN', label: 'Electrician' },
+  { value: 'PLUMBER', label: 'Plumber' },
+  { value: 'WATCHMAN', label: 'Watchman' },
+  { value: 'COOK', label: 'Cook' },
+  { value: 'DRIVER', label: 'Driver' },
   { value: 'OTHER', label: 'Other' },
 ];
 
@@ -85,7 +90,7 @@ const ManageUsersPage = () => {
           <p className="text-[#8A8A8A] dark:text-[#616161] mt-1 text-sm">Approve or reject community members</p>
         </div>
         <button onClick={() => setShowFacultyModal(true)} className="btn-primary flex items-center gap-2 text-sm">
-          <Plus className="w-4 h-4" /> Add Faculty
+          <Plus className="w-4 h-4" /> Add Worker
         </button>
       </div>
 
@@ -190,8 +195,8 @@ const ManageUsersPage = () => {
       {showFacultyModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
           <div className="bg-white dark:bg-[#141414] border border-[#E2E2E2] dark:border-[#242424] rounded-3xl w-full max-w-sm p-7 shadow-2xl">
-            <h3 className="text-xl font-black text-[#141414] dark:text-[#EEEEEE] mb-1">Add Faculty</h3>
-            <p className="text-xs text-[#8A8A8A] dark:text-[#616161] mb-6">Security accounts are auto-created with default password</p>
+            <h3 className="text-xl font-black text-[#141414] dark:text-[#EEEEEE] mb-1">Add Worker</h3>
+            <p className="text-xs text-[#8A8A8A] dark:text-[#616161] mb-6">Add community staff — security accounts get auto-login</p>
             <form onSubmit={handleAddFaculty} className="space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-[#545454] dark:text-[#9E9E9E] mb-2">Full Name</label>
@@ -216,7 +221,7 @@ const ManageUsersPage = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-[#545454] dark:text-[#9E9E9E] mb-2">Role</label>
+                <label className="block text-sm font-semibold text-[#545454] dark:text-[#9E9E9E] mb-2">Worker Type</label>
                 <select
                   value={facultyForm.role}
                   onChange={(e) => setFacultyForm({ ...facultyForm, role: e.target.value })}
@@ -235,7 +240,7 @@ const ManageUsersPage = () => {
               <div className="flex gap-3 pt-2">
                 <button type="button" onClick={() => setShowFacultyModal(false)} className="btn-secondary flex-1 text-sm py-2.5">Cancel</button>
                 <button type="submit" disabled={facultyLoading} className="btn-primary flex-1 text-sm py-2.5">
-                  {facultyLoading ? 'Adding...' : 'Add Faculty'}
+                  {facultyLoading ? 'Adding...' : 'Add Worker'}
                 </button>
               </div>
             </form>
